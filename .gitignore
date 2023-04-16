@@ -1,0 +1,9 @@
+*.asv
+*.bin
+*.png
+*.txt
+graphics/*
+data/*
+
+
+!.gitkeep

@@ -1,6 +1,7 @@
 %figure
 for k=1:length(targets)
     scatter(targets(k).x,targets(k).y,'LineWidth',5);
+
     hold on
 end
 

@@ -2,16 +2,16 @@ function range_corrected = rcmc2(range_doppler_data,delta_samples,samples)
 %RCMC2 Summary of this function goes here
 %   Detailed explanation goes here
 
-
-range_corrected=zeros(length(range_doppler_data),width(range_doppler_data));
+[azimuth_steps,beat_samples]=size(range_doppler_data);
+range_corrected=zeros(azimuth_steps,beat_samples);
 
 
 buffer_zone=15;
 
 
 
-for k=1:length(range_doppler_data)
-    for l=buffer_zone:width(range_doppler_data)-10
+for k=1:azimuth_steps-10
+    for l=buffer_zone:beat_samples
 
 
 %         tmp_signal=range_doppler_data(k,l-3:l+3);

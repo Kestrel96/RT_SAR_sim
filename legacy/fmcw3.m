@@ -14,9 +14,9 @@ PRI=4e-4; % Pulse repetition interval
 max_range=300;% max range of radar, used to calculate antenna max width and
 % azimuth reference functions
 
-
+max_fb=Beta*2*max_range/c;
 % create radar
-radar=radar_object(B,T,fc,v,PRI,ant_angle);
+radar=radar_object(B,T,fc,v,PRI,ant_angle,max_fb);
 radar=radar.get_ant_vertices(max_range);
 radar=radar.get_fs(max_range);
 
@@ -41,23 +41,20 @@ azimuth_axis=0:radar.az_step:azimuth_distance-radar.az_step; %Azimuth as distanc
 %% Create targets
 
 
-t1=point_target(85,floor(azimuth_distance/2));
-t2=point_target(100,15);
+t1=point_target(100,10);
+t2=point_target(90,15);
 t3=point_target(80,20);
-t4=point_target(70,floor(azimuth_distance/2));
-t5=point_target(75,floor(azimuth_distance/2)+30);
+t4=point_target(70,25);
+t5=point_target(10,30);
 t6=point_target(70,20);
-t7=point_target(20,30);
-t8=point_target(80,25);
-%targets=[t1,t2,t3,t4,t5,t6,t7,t8];
-
-targets=[t4,t5];
+t7=point_target(20,20);
+t8=point_target(80,25)
+targets=[t1,t2,t3,t4,t5,t6,t7,t8];
 
 % Determine antenna length for every target
 for k=1:length(targets)
     targets(k)=targets(k).get_ant_width(ant_angle);
 end
-
 %% Display scene setup
 show_scene
 
@@ -79,8 +76,8 @@ for k=1:steps
             targets(l)=targets(l).get_inst_range2(radar.x,radar.y);
             tmp_signal=tmp_signal+targets(l).get_beat(t,radar.lambda,radar.Beta,radar.T);
 
-        else
-            tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
+        
+%               tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
         end
 
 
@@ -99,6 +96,7 @@ end
 %% Range compression
 SAR_range_compressed=range_compresion(radar.SAR_raw_data,steps);
 
+
 %% RCMC
 % Range-Doppler transform
 RD_data=range_doppler_transform(SAR_range_compressed);
@@ -115,15 +113,17 @@ SAR_range_corrected=range_doppler_invert(RD_range_corrected);
 %show step results
 display_range_correction
 
+
 %% Azimuth compression
 
 %radar.SAR_rage_corrected=SAR_range_corrected;
 radar.SAR_range_compressed=SAR_range_corrected;
 %radar.SAR_range_compressed=SAR_range_compressed;
-radar=radar.azimuth_compression(samples);
+radar=radar.azimuth_compression(azimuth_samples);
 
 %% Display
 display_results
 display_scene_comparison
+dump_data
 
 
