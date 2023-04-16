@@ -10,7 +10,7 @@ fc=1e9; % carrier
 B=75e6; % Bandwidth
 T=1e-3; % Chirp time
 Alfa=B/T; % slope
-ant_angle=30; %antenna aperture angle
+ant_angle=15; %antenna aperture angle
 v=50; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
@@ -30,7 +30,7 @@ azimuth_distance=azimuth_samples*PRI*v;
 azimuth_step=azimuth_distance/azimuth_samples;
 
 radar=radar_object(B,T,fc,v,PRI,ant_angle,fb_max);
-%Bd=2*v/radar.lambda*deg2rad(ant_angle);
+%%Bd=2*v/radar.lambda*deg2rad(ant_angle);
 
 %% Targets
 

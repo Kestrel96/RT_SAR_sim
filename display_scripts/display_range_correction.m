@@ -61,7 +61,7 @@ ax.YDir= 'normal';
 nexttile
 imagesc(raxis,azimuth_axis,db(abs(radar.SAR_range_corrected)));
 xlim([0,max_range])
-imagesc(db(abs(radar.SAR_range_corrected)));
+%imagesc(db(abs(radar.SAR_range_corrected)));
 title("Range Compressed Data (Post RCMC)")
 xlabel("Range [m]")
 ylabel("Azimuth distance [m]")

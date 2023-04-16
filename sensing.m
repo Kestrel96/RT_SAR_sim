@@ -13,7 +13,7 @@ for k=1:azimuth_samples
 
 
             tmp_signal=tmp_signal+targets(l).get_beat(radar.y,Alfa,t,fc);
-            %tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
+            tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
 
         else
             tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
