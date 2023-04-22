@@ -67,12 +67,14 @@ classdef point_target
             R=sqrt(obj.x^2+(obj.y-radar_y)^2);
             disp(R)
             tau=2*R/c;
+            tau2=2*obj.x/c;
 
 
 
             beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
             %beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t));
             %beat=beat*exp(-2*pi*1i*(fc*tau));
+
             %RVP removal
             beat=beat*exp(2*pi*1i*(Alfa*tau^2/2));
 

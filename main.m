@@ -10,7 +10,7 @@ fc=1e9; % carrier
 B=75e6; % Bandwidth
 T=1e-3; % Chirp time
 Alfa=B/T; % slope
-ant_angle=15; %antenna aperture angle
+ant_angle=60; %antenna aperture angle
 v=50; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
@@ -36,10 +36,11 @@ radar=radar_object(B,T,fc,v,PRI,ant_angle,fb_max);
 
 t1=point_target(25,45);
 t2=point_target(120,15);
-t3=point_target(120,azimuth_distance/2+5);
+t3=point_target(120,azimuth_distance/2);
 t4=point_target(230,15);
+t5=point_target(124,15);
 
-targets=[t1,t2,t3,t4];
+targets=[t1,t2,t3,t4,t5];
 
 
 % Determine antenna length for every target
@@ -75,18 +76,9 @@ radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
 display_range_correction
 
 %% Azimuth compression
+LUT=get_azimuth_reference(azimuth_axis,raxis,fc,Alfa); 
+radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,LUT);
+show_reference_example
 
-
-
-
-
-
-
-figure 
-tiledlayout(3,1)
-nexttile
-imagesc(db(abs(radar.SAR_range_corrected)));
-nexttile
-plot(real(radar.SAR_range_corrected(:,116)))
-nexttile
-plot(real(radar.SAR_range_corrected(:,61)))
+%% Present results
+display_results

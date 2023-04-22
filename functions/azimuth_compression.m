@@ -1,7 +1,32 @@
-function [outputArg1,outputArg2] = azimuth_compression(inputArg1,inputArg2)
+function SAR_azimuth_compressed = azimuth_compression(SAR_range_corrected,azimuth_LUT)
 %AZIMUTH_COMPRESSION Summary of this function goes here
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
+
+[azimuth_steps,samples]=size(SAR_range_corrected);
+
+SAR_azimuth_compressed=zeros(azimuth_steps,samples);
+for k=1:samples
+
+    azimuth_chirp=SAR_range_corrected(:,k);
+    h=azimuth_LUT(k,:)';
+    w=blackman(length(h));
+    h=h.*w;
+    %filtered=filter(h,1,azimuth_chirp);
+    filtered=conv(h,azimuth_chirp);
+    filtered=filtered(floor(length(h)/2):end-(floor(length(h)/2)));
+    
+
+%     if(k==61)
+%         figure
+%         plot(real(filtered)/max(real(filtered)));
+%         hold on
+%         plot(real(azimuth_chirp));
+%         hold off
+%     end
+
+    SAR_azimuth_compressed(:,k)=filtered;
+
+end
 end
 

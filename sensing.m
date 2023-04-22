@@ -1,5 +1,6 @@
 radar.SAR_raw_data=zeros(azimuth_samples,samples);% init Raw Data array
 radar=radar.get_ant_vertices(max_range);
+noise_mult=1;
 
 for k=1:azimuth_samples
 
@@ -13,10 +14,10 @@ for k=1:azimuth_samples
 
 
             tmp_signal=tmp_signal+targets(l).get_beat(radar.y,Alfa,t,fc);
-            tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
+            tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*noise_mult;% add noise
 
         else
-            tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*1;% add noise
+            tmp_signal=tmp_signal+ones(1,samples).*randn(1,samples)*noise_mult;% add noise
 
         end
 
