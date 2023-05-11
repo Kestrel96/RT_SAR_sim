@@ -22,6 +22,7 @@ classdef radar_object
         PRF=0;
 
         Beta = 0 % slope
+        Alfa=0;
         lambda = 0; % Wavelength
         ant_angle = deg2rad(30); % antenna beam angle
         sigma_a; % azimuth resolution
@@ -58,6 +59,7 @@ classdef radar_object
             obj.sigma_r=obj.c/(2*obj.B);
 
             obj.Beta = B / T;
+            obj.Alfa=obj.Beta;
             obj.lambda = obj.c / fc;
             obj.PRI=PRI;
             obj.az_step = obj.PRI * obj.v;
@@ -236,45 +238,60 @@ classdef radar_object
 
         end
 
+    
+
+
+
+
+    function obj=azimuth_reference2(obj, max_range,samples)
+
+        %azimuth refernce functions with sigma_r resolution
+
+        Beta=Alfa;
+        lambda=0.3;
+        T=1e-3;
+
+        c=3e8;
+
+        for k=1:samples
+
+            R=sqrt(obj.x^2+(obj.y-radar_y)^2);
+            disp(R)
+            tau=2*R/c;
+
+
+
+            beat=exp(2*pi*1i*(fc*tau+Alfa*t));
+            %beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t));
+            beat=beat*exp(2*pi*1i*(fc*tau));
+            %RVP removal
+
+        end
     end
 
+
+
+
+        function obj=export_settings(obj)
+            f= fopen('./data/radar_setupp.txt','w');
+
+            fprintf(f,"fc=%f",obj.fc);
+            fprintf(f,"B=%f",obj.B);
+            fprintf(f,"T=%f",obj.T);
+            fprintf(f,"Alfa=%f",obj.Alfa);
+            fprintf(f,"ant_angle=%f",obj.ant_angle);
+            fprintf(f,"v=%f",obj.v);
+            fprintf(f,"PRI=%f",obj.PRI);
+            fprintf(f,"PRF=%f",obj.PRF);
+            fprintf(f,"max_range=%f",obj.max_range);
+
+            close(f);
+
+
+        end
+
+
+
+    end
 end
 
-
-function obj=azimuth_reference2(obj, max_range,samples)
-
-%azimuth refernce functions with sigma_r resolution
-
-Beta=Alfa;
-lambda=0.3;
-T=1e-3;
-
-c=3e8;
-
-for k=1:samples
-    
-    R=sqrt(obj.x^2+(obj.y-radar_y)^2);
-    disp(R)
-    tau=2*R/c;
-
-
-
-    beat=exp(2*pi*1i*(fc*tau+Alfa*t));
-    %beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t));
-    beat=beat*exp(2*pi*1i*(fc*tau));
-    %RVP removal
-
-end
-
-end
-
-% determine max range (this range determines maximum length of returned signal)
-% , antenna footprint, time of ilumination for every
-% target
-% get range to all targets
-% Calculate 0 doppler frequnecy for each range
-% star sensing - get beat signal from every target and mix it
-% range compression - fft on every pulse - separate beat frequencies (skip
-% phase for now)
-% RCMC - perform for every tone
-% Azimuth

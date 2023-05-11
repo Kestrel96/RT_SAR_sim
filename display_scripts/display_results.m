@@ -1,6 +1,6 @@
 
 final_results_figure=figure('Name','FInal Output','NumberTitle','off','Position', [0 0 1600 900]);
-tiledlayout(1,4)
+tl=tiledlayout(1,4);
 nexttile
 imagesc(real(radar.SAR_raw_data))
 xlabel("Samples")
@@ -35,5 +35,7 @@ xlim([0,max_range])
 ax = gca;
 ax.YDir= 'normal';
 draw_targets
+
+sgtitle('SAR Processing Steps')
 
 saveas(final_results_figure,"./graphics/final_results.png");

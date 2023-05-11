@@ -10,8 +10,8 @@ fc=1e9; % carrier
 B=75e6; % Bandwidth
 T=1e-3; % Chirp time
 Alfa=B/T; % slope
-ant_angle=60; %antenna aperture angle
-v=50; % platform's velocity
+ant_angle=30; %antenna aperture angle
+v=75; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
 max_range=250;% max range of radar, used to calculate antenna max width and
@@ -25,7 +25,7 @@ fs=fb_max*3;
 t=0:1/fs:T-1/fs;
 samples=length(t);
 
-azimuth_samples=2000;
+azimuth_samples=1024;
 azimuth_distance=azimuth_samples*PRI*v;
 azimuth_step=azimuth_distance/azimuth_samples;
 
@@ -38,9 +38,11 @@ t1=point_target(25,45);
 t2=point_target(120,15);
 t3=point_target(120,azimuth_distance/2);
 t4=point_target(230,15);
-t5=point_target(124,15);
+t5=point_target(120,20);
+t6=point_target(87,143);
+t7=point_target(87,58);
 
-targets=[t1,t2,t3,t4,t5];
+targets=[t1,t2,t3,t4,t5,t6,t7];
 
 
 % Determine antenna length for every target
@@ -76,9 +78,11 @@ radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
 display_range_correction
 
 %% Azimuth compression
-LUT=get_azimuth_reference(azimuth_axis,raxis,fc,Alfa); 
-radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,LUT);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference(azimuth_axis,raxis,fc,Alfa); 
+radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
 show_reference_example
 
 %% Present results
 display_results
+dump_data
+export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);

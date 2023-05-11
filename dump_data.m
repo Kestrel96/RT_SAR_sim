@@ -33,14 +33,51 @@ end
 
 fclose(f);
 
-%% test
+%% Save range corrected data
+f= fopen('./data/sar_range_corrected.bin','wb');
+fwrite(f,[length(radar.SAR_range_corrected),width(radar.SAR_range_corrected)],'uint');
 
-% a=[1.1,2.1,3.1;4,5,6];
-% f= fopen('test.bin','wb');
-% fwrite(f,[2,3],'uint');
-% 
-% for i=1:length(a)
-%     fwrite(f,real(a),'single');
-% 
-% end
-% fclose(f);
+for i=1:length(radar.SAR_range_corrected)
+    fwrite(f,real(radar.SAR_range_corrected(i,:)),'single');
+
+end
+
+for i=1:length(radar.SAR_range_corrected)
+    fwrite(f,imag(radar.SAR_range_corrected(i,:)),'single');
+
+end
+
+fclose(f);
+
+%% Save azimuth compression LUT
+f= fopen('./data/sar_azimuth_reference_LUT.bin','wb');
+fwrite(f,[length(radar.SAR_azimuth_reference_LUT),width(radar.SAR_azimuth_reference_LUT)],'uint');
+
+for i=1:length(radar.SAR_azimuth_reference_LUT)
+    fwrite(f,real(radar.SAR_azimuth_reference_LUT(i,:)),'single');
+
+end
+
+for i=1:length(radar.SAR_azimuth_reference_LUT)
+    fwrite(f,imag(radar.SAR_azimuth_reference_LUT(i,:)),'single');
+
+end
+
+fclose(f);
+
+
+%% Save RCMC shifts
+f= fopen('./data/delta_samples.bin','wb');
+fwrite(f,[length(delta_samples),width(delta_samples)],'uint');
+
+for i=1:length(delta_samples)
+    fwrite(f,real(delta_samples(i,:)),'single');
+
+end
+
+for i=1:length(delta_samples)
+    fwrite(f,imag(delta_samples(i,:)),'single');
+
+end
+
+fclose(f);

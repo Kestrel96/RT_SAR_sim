@@ -2,7 +2,7 @@ function azimuth_LUT = get_azimuth_reference(azimuth_axis,range_axis,fc,Alfa)
 %GET_AZIMUTH_REFERENCE Summary of this function goes here
 %   Detailed explanation goes here
 
-samples_no=500;
+samples_no=250;
 azimuth_zero_doppler=floor(length(azimuth_axis)/2);
 
 positions=zeros(1,samples_no);

@@ -31,7 +31,7 @@ ylabel("Amplitude")
 r=real(x);
 
 f= fopen('./data/2_sine_signal.bin','wb');
-fwrite(f,[length(x),1],'int');
+fwrite(f,[1,length(x)],'int');
 fwrite(f,real(x),'single');
 fwrite(f,imag(x),'single');
 fclose(f);
