@@ -10,11 +10,11 @@ fc=1e9; % carrier
 B=75e6; % Bandwidth
 T=1e-3; % Chirp time
 Alfa=B/T; % slope
-ant_angle=30; %antenna aperture angle
+ant_angle=120; %antenna aperture angle (default to 20)
 v=75; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
-max_range=250;% max range of radar, used to calculate antenna max width and
+max_range=650;% max range of radar, used to calculate antenna max width and
 % azimuth reference functions
 
 
@@ -34,15 +34,17 @@ radar=radar_object(B,T,fc,v,PRI,ant_angle,fb_max);
 
 %% Targets
 
-t1=point_target(25,45);
+t1=point_target(10,45);
 t2=point_target(120,15);
 t3=point_target(120,azimuth_distance/2);
 t4=point_target(230,15);
 t5=point_target(120,20);
-t6=point_target(87,143);
-t7=point_target(87,58);
+t6=point_target(87,55);
+t7=point_target(20,58);
+t8=point_target(450,90);
+t9=point_target(500,5);
 
-targets=[t1,t2,t3,t4,t5,t6,t7];
+targets=[t1,t2,t3,t4,t5,t6,t7,t8,t9];
 
 
 % Determine antenna length for every target
@@ -67,8 +69,14 @@ radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed);
 delta_R=r_shift(rd_axis,raxis,radar.lambda,radar.v);
 
+figure
+imagesc(abs(radar.SAR_range_doppler));
+
 R_to_f=2*delta_R*Alfa/c;
 delta_samples=R_to_f*samples/fs;
+
+shifts=round(delta_samples);
+data_dump("./data/shifts.bin",shifts);
 
 % % Range correction
 RD_range_corrected=rcmc3(radar.SAR_range_doppler,delta_samples);
