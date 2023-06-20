@@ -17,13 +17,13 @@ for k=1:samples
     filtered=filtered(floor(length(h)/2):end-(floor(length(h)/2)));
     
 
-%     if(k==61)
-%         figure
-%         plot(real(filtered)/max(real(filtered)));
-%         hold on
-%         plot(real(azimuth_chirp));
-%         hold off
-%     end
+     if(k==61)
+         figure
+         plot(real(filtered)/max(real(filtered)));
+         hold on
+         plot(real(azimuth_chirp));
+         hold off
+     end
 
     SAR_azimuth_compressed(:,k)=filtered;
 

@@ -41,7 +41,12 @@ for k=1:length(range_axis)
 end
 
 
-
-
-end
+% figure
+% for i = 1:length(azimuth_LUT)
+% 
+%     plot(real(azimuth_LUT(i,:)));
+%     waitforbuttonpress
+% 
+% 
+% end
 

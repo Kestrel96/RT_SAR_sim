@@ -10,7 +10,7 @@ fc=1e9; % carrier
 B=75e6; % Bandwidth
 T=1e-3; % Chirp time
 Alfa=B/T; % slope
-ant_angle=120; %antenna aperture angle (default to 20)
+ant_angle=15; %antenna aperture angle (default to 20)
 v=75; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
@@ -94,3 +94,8 @@ show_reference_example
 display_results
 dump_data
 export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);
+
+
+%%
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference(azimuth_axis,raxis,fc,Alfa); 
+
