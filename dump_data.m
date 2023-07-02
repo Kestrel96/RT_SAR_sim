@@ -81,3 +81,38 @@ for i=1:length(delta_samples)
 end
 
 fclose(f);
+
+
+
+%% Save LUT
+f= fopen('./data/LUT.bin','wb');
+fwrite(f,[length(radar.SAR_azimuth_compressed),width(radar.SAR_azimuth_compressed)],'uint');
+
+for i=1:length(radar.SAR_azimuth_compressed)
+    fwrite(f,real(radar.SAR_azimuth_compressed(i,:)),'single');
+
+end
+
+for i=1:length(radar.SAR_azimuth_compressed)
+    fwrite(f,imag(radar.SAR_azimuth_compressed(i,:)),'single');
+
+end
+
+fclose(f);
+
+
+%% Save fKernels
+f= fopen('./data/fKernels.bin','wb');
+fwrite(f,[length(fkernels),width(fkernels)],'uint');
+
+for i=1:length(delta_samples)
+    fwrite(f,real(delta_samples(i,:)),'single');
+
+end
+
+for i=1:length(delta_samples)
+    fwrite(f,imag(delta_samples(i,:)),'single');
+
+end
+
+fclose(f);

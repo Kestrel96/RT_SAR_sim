@@ -34,7 +34,8 @@ for k=1:length(range_axis)
     tau2(1:samples_no)=range_axis(k);
     
     reference=exp(2*pi*1i*(fc*tau+Alfa*tau2));
-    reference=reference(end:-1:1);
+    %reference=reference(end:-1:1);
+    %reference=conj(reference);
     azimuth_LUT(k,:)=reference;
 
 

@@ -20,8 +20,10 @@ for k=1:samples
      if(k==61)
          figure
          plot(real(filtered)/max(real(filtered)));
+         title("TIME")
          hold on
          plot(real(azimuth_chirp));
+         plot(real(azimuth_LUT(k,:)));
          hold off
      end
 
