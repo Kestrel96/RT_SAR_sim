@@ -45,6 +45,7 @@ for k=1:samples
 
 
     out2=ifft(OUT2);
+    % out2=circshift(out2,500,2);
     % out2=out2(end:-1:1);
     % out2=out2(500+13:end);
     % out2=out2(floor(250/2):end-(floor(250/2)));
