@@ -1,26 +1,43 @@
-function azimuth_reference_LUT = get_azimuth_refernce_chirp(v,PRI,max_range,pulses,ant_angle)
+function azimuth_reference_LUT = get_azimuth_refernce_chirp(max_range,ant_angle,resolution,v,PRI,Alfa,fc,fs)
 %GET_AZIMUTH_REFERNCE_CHIRP Summary of this function goes here
 %   x is range
+% ant_angle in degrees
 
+c=3e8;
 
-azimuth_reference_LUT=zeros(max_range,pulses);
+% get range axis of given resoultion spanning to max_range
+range_axis=1:resolution:max_range;
+% Compute lenghts of ilumination of target at given distance.
+path_lengths=abs(2*range_axis*tan(deg2rad(ant_angle/2)));
+% Now get kernel lengths (how many samples for given range)
+ilumination_times=path_lengths/v;
+kernel_samples=floor(ilumination_times/PRI);
 
-angle=deg2rad(ant_angle);
+%Allocate LUT
 
+max_samples=kernel_samples(end);
+LUT_rows=length(range_axis);
 
-% Range reference with 1 m intervals between targets
-for r=1:max_range
+%+1 because first element is length of kernel
+azimuth_reference_LUT = zeros(LUT_rows,max_samples+1);
 
-    antenna_width = 2*r*tan(angle/2);
-    floor(antenna_width)
-    
-    for k=1:antenna_width
-    end
-    
+%d - vector of current distances at given pulse
 
-    phase_shifts=4*pi*r/lambda;
-    reference=exp(1i*(phase_shifts));
+for k = 1:LUT_rows
+    azimuth_positions=-path_lengths(k)/2:PRI*v:path_lengths(k)/2-PRI*v;
+    d=sqrt(azimuth_positions.^2+range_axis(k).^2);
+    azimuth_reference_LUT(k,1)=kernel_samples(k);
+    % Generate reference chirp, sample for every azimth position
+    %tau - time of flight of light. We only need one sample, not the whole reflected echo.
+    tau=2*d./c;
+
+    reference=exp(2*pi*1i*(fc*tau+Alfa*tau));
+
+azimuth_reference_LUT(k,2:length(reference)+1)=reference;
+
 end
+
+
 
 
 
