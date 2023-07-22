@@ -3,9 +3,16 @@ function azimuth_LUT = get_azimuth_reference(azimuth_axis,range_axis,fc,Alfa)
 %   Detailed explanation goes here
 
 
+v=10;
 
 
 
+beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
+%beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t));
+%beat=beat*exp(-2*pi*1i*(fc*tau));
+
+%RVP removal
+beat=beat*exp(2*pi*1i*(Alfa*tau^2/2));
 
 
 

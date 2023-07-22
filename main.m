@@ -14,14 +14,14 @@ ant_angle=15; %antenna aperture angle (default to 20)
 v=75; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
-max_range=550;% max range of radar, used to calculate antenna max width and
+max_range=1055;% max range of radar, used to calculate antenna max width and
 % azimuth reference functions
 
 
 Bd=2*v/c*fc;
 
 fb_max=max_range*2*Alfa/c;
-fs=fb_max*3;
+fs=fb_max*4;
 t=0:1/fs:T-1/fs;
 samples=length(t);
 
@@ -89,9 +89,9 @@ display_range_correction
 
 %% Azimuth compression
 % close all
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference(azimuth_axis,raxis,fc,Alfa); 
-radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
-[radar.SAR_azimuth_compressed, fkernels]=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(max_range,ant_angle,1,v,PRI,Alfa,fc,fs); 
+% radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
+[radar.SAR_azimuth_compressed, fkernels]=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,radar.sigma_r,1);
 
 
 show_reference_example

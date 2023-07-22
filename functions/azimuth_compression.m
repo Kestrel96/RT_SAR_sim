@@ -3,6 +3,14 @@ function SAR_azimuth_compressed = azimuth_compression(SAR_range_corrected,azimut
 %   Detailed explanation goes here
 
 
+
+
+
+
+
+
+
+
 [azimuth_steps,samples]=size(SAR_range_corrected);
 
 SAR_azimuth_compressed=zeros(azimuth_steps,samples);

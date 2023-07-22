@@ -6,7 +6,7 @@ title("Range corrected data")
 nexttile
 plot(real(radar.SAR_range_corrected(:,116)))
 hold on
-plot(real(radar.SAR_azimuth_reference_LUT(116,:)));
+plot(real(radar.SAR_azimuth_reference_LUT(116,2:end)));
 title("Sample no. 116")
 legend("Echo","Reference function")
 %nexttile
