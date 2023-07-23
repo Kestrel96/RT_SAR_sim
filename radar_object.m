@@ -47,7 +47,7 @@ classdef radar_object
 
         function obj = radar_object(B, T, fc, v,PRI, ant_angle,max_fb)
             %RADAR Construct an instance of this class
-            %   Detailed explanation goes here
+            
 
             obj.v = v;
             obj.B = B;
@@ -69,13 +69,9 @@ classdef radar_object
 
         end
 
-        function outputArg = method1(obj, inputArg)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
-            outputArg = obj.Property1 + inputArg;
-        end
-
         function obj = get_fs(obj, max_distance)
+            %GET_FS Get ADC sampling frequnecy based on maximum expected beat frequency.
+            %max_distance - maximum expected distance
 
             f_max = obj.Beta * 2 * max_distance / (obj.T * obj.c);
             obj.fs = 3 * f_max;

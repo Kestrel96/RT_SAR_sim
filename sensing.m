@@ -33,16 +33,16 @@ for k=1:azimuth_samples
 end
 
 %%
-figure
-tiledlayout(1,2)
-nexttile
+% figure
+% tiledlayout(1,2)
+% nexttile
 
 
-imagesc(sample_axis,azimuth_axis,abs(radar.SAR_raw_data));
-xlabel("Sample")
-ylabel("Azimuth distance [m]")
-ax = gca;
-ax.YDir= 'normal';
-nexttile
-show_scene
+% imagesc(sample_axis,azimuth_axis,abs(radar.SAR_raw_data));
+% xlabel("Sample")
+% ylabel("Azimuth distance [m]")
+% ax = gca;
+% ax.YDir= 'normal';
+% nexttile
+% show_scene
 

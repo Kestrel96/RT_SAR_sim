@@ -6,26 +6,26 @@ clear
 % Radar frontend
 %% Platform Parameters
 c=3e8;
-fc=1e9; % carrier
+fc=35e9; % carrier
 B=75e6; % Bandwidth
-T=1e-3; % Chirp time
+T=0.5e-3; % Chirp time
 Alfa=B/T; % slope
-ant_angle=15; %antenna aperture angle (default to 20)
-v=75; % platform's velocity
+ant_angle=5; %antenna aperture angle (default to 20)
+v=50; % platform's velocity
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
-max_range=1055;% max range of radar, used to calculate antenna max width and
+max_range=1500;% max range of radar, used to calculate antenna max width and
 % azimuth reference functions
 
 
 Bd=2*v/c*fc;
 
 fb_max=max_range*2*Alfa/c;
-fs=fb_max*4;
+fs=fb_max*3;
 t=0:1/fs:T-1/fs;
 samples=length(t);
 
-azimuth_samples=4096;
+azimuth_samples=8192;
 azimuth_distance=azimuth_samples*PRI*v;
 azimuth_step=azimuth_distance/azimuth_samples;
 
@@ -41,11 +41,17 @@ t4=point_target(230,15);
 t5=point_target(120,60);
 t6=point_target(87,55);
 t7=point_target(20,58);
-t8=point_target(450,90);
-t9=point_target(500,5);
+t8=point_target(250,90);
+t9=point_target(1450,120);
 
- targets=[t1,t2,t3,t4,t5,t6,t7,t8,t9];
+t10=point_target(1450,100);
+t11=point_target(250,150);
+%sample 126
+
+targets=[t1,t2,t3,t4,t5,t6,t7,t8,t9,t10];
 %targets=[t1,t2,t3,t5];
+
+%targets=[t10,t11];
 
 
 
@@ -91,18 +97,18 @@ display_range_correction
 % close all
 radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(max_range,ant_angle,1,v,PRI,Alfa,fc,fs); 
 % radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
-[radar.SAR_azimuth_compressed, fkernels]=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,radar.sigma_r,1);
+[radar.SAR_azimuth_compressed, fkernels]=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,radar.sigma_r,1,max_range);
 
 
 show_reference_example
 
 %% Present results
 display_results
-dump_data
+%dump_data
 export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);
 
 %%
 % close all
-radar.SAR_azimuth_compressed=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
+%radar.SAR_azimuth_compressed=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
 
 

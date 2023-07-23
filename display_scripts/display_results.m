@@ -17,6 +17,7 @@ title("Range Compressed Data")
 xlim([0,max_range])
 ax = gca;
 ax.YDir= 'normal';
+draw_targets
 nexttile
 imagesc(raxis,azimuth_axis,abs(radar.SAR_range_corrected))
 xlabel("Range [m]")
@@ -27,11 +28,11 @@ ax = gca;
 ax.YDir= 'normal';
 draw_targets
 nexttile
-imagesc(raxis,azimuth_axis,db(abs(radar.SAR_azimuth_compressed)))
+imagesc(raxis,azimuth_axis,db(abs(radar.SAR_azimuth_compressed),"power"))
 xlabel("Range [m]")
 ylabel("Azimuth [m]")
 title("Azimuth Compressed Data")
-% xlim([0,max_range])
+xlim([0,max_range])
 ax = gca;
 ax.YDir= 'normal';
 draw_targets
@@ -39,3 +40,5 @@ draw_targets
 sgtitle('SAR Processing Steps')
 
 saveas(final_results_figure,"./graphics/final_results.png");
+figure
+imagesc(db(abs(radar.SAR_range_compressed)));

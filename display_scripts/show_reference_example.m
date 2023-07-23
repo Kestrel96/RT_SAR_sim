@@ -1,13 +1,14 @@
 
+figure
 tiledlayout(2,1)
 nexttile
 imagesc(db(abs(radar.SAR_range_corrected)));
 title("Range corrected data")
 nexttile
-plot(real(radar.SAR_range_corrected(:,116)))
+plot(real(radar.SAR_range_corrected(:,126)))
 hold on
-plot(real(radar.SAR_azimuth_reference_LUT(116,2:end)));
-title("Sample no. 116")
+plot(real(radar.SAR_azimuth_reference_LUT(251,2:end)));
+title("Sample no. 126")
 legend("Echo","Reference function")
 %nexttile
 

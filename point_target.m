@@ -57,15 +57,18 @@ classdef point_target
 
 
         function beat = get_beat(obj,radar_y,Alfa,t,fc)
-            %GET_BEAT Summary of this function goes here
-            %   Detailed explanation goes here
+            %GET_BEAT Return beat signal of a target.
+            %   radar_y - azimuth position of radar platform
+            %   Alfa    - Modulation rate
+            %   t       - time vector
+            %   fc      - carrier frequency
+
             Beta=Alfa;
             lambda=0.3;
             T=1e-3;
 
             c=3e8;
             R=sqrt(obj.x^2+(obj.y-radar_y)^2);
-            disp(R)
             tau=2*R/c;
             tau2=2*obj.x/c;
 
@@ -76,22 +79,7 @@ classdef point_target
             %beat=beat*exp(-2*pi*1i*(fc*tau));
 
             %RVP removal
-            beat=beat*exp(2*pi*1i*(Alfa*tau^2/2));
-
-
-            %%ti version
-            %             f=Alfa*2*R/c;
-            %             phi=4*pi*R/lambda;
-            %             beat=exp(2*pi*1i*f*t+phi);
-
-
-            %             c=3e8;
-            %             phi=4*pi*R/lambda; % phase of IF signal
-            %             %obj.r=obj.x;
-            %             f_if=Beta*2*R/(T*c); % frequency of IF signal
-            %             %r=f_if*T*c/(2*Beta);
-            %             beat=obj.refelctivity* exp(1i*(2*pi*f_if*t+phi));
-            %             %beat=exp(2*pi*1i*(Alfa*tau*t));
+            %beat=beat*exp(2*pi*1i*(Alfa*tau^2/2));
 
 
         end
