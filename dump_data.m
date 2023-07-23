@@ -53,12 +53,14 @@ fclose(f);
 f= fopen('./data/sar_azimuth_reference_LUT.bin','wb');
 fwrite(f,[length(radar.SAR_azimuth_reference_LUT),width(radar.SAR_azimuth_reference_LUT)],'uint');
 
-for i=1:length(radar.SAR_azimuth_reference_LUT)
+[rows,cols]=size(radar.SAR_azimuth_reference_LUT);
+
+for i=1:rows
     fwrite(f,real(radar.SAR_azimuth_reference_LUT(i,:)),'single');
 
 end
 
-for i=1:length(radar.SAR_azimuth_reference_LUT)
+for i=1:rows
     fwrite(f,imag(radar.SAR_azimuth_reference_LUT(i,:)),'single');
 
 end

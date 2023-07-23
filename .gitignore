@@ -4,6 +4,7 @@
 *.txt
 graphics/*
 data/*
+.vscode
 
 
 !.gitkeep

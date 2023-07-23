@@ -2,6 +2,7 @@ addpath("display_scripts")
 addpath("functions")
 close all
 clear
+dbstop if error
 
 % Radar frontend
 %% Platform Parameters
@@ -66,7 +67,7 @@ rd_axis=-PRF/2:PRF/azimuth_samples:PRF/2-1/PRF; %Range-Doppler domain axis (azim
 raxis=faxis*c*T/(2*B);
 azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
 sample_axis=1:1:samples;
-show_scene
+
 %% Sensing
 sensing
 
@@ -77,8 +78,6 @@ radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed);
 delta_R=r_shift(rd_axis,raxis,radar.lambda,radar.v);
 
-figure
-imagesc(abs(radar.SAR_range_doppler));
 
 R_to_f=2*delta_R*Alfa/c;
 delta_samples=R_to_f*samples/fs;
@@ -96,19 +95,14 @@ display_range_correction
 %% Azimuth compression
 % close all
 radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(max_range,ant_angle,1,v,PRI,Alfa,fc,fs); 
-% radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
 [radar.SAR_azimuth_compressed, fkernels]=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,radar.sigma_r,1,max_range);
 
 
-show_reference_example
+%show_reference_example
 
 %% Present results
 display_results
-%dump_data
+dump_data
 export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);
-
-%%
-% close all
-%radar.SAR_azimuth_compressed=azimuth_compression_freq(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT);
 
 

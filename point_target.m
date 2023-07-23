@@ -1,24 +1,33 @@
 classdef point_target
-    %POINT_TARGET Summary of this class goes here
-    %   Detailed explanation goes here
+    %POINT_TARGET Class representing a point target/reflector.
 
     properties
+        %x coordinate (range)
         x = 0;
+        %y coordinate (azimuth)
         y = 0;
+
+        %Current range
         r = 0;
+        %Current radial speed
         vr=0;
+        %Reflectivity (can be used to attenuate the signal)
         refelctivity = 1;
+
+        %Width of antenna at target range
         antenna_width = 0;
     end
 
     methods
         function obj = point_target(x,y)
-            %POINT_TARGET Construct an instance of this class
-            %   Detailed explanation goes here
+            %POINT_TARGET Create point target at (x,y) coordinates.
             obj.x = x;
             obj.y = y;
         end
+
+
         function obj=get_vr(obj,vp,xp,yp)
+            %GET_VR get radial speed of target.
             alfa=cot((xp-obj.x)/(yp-obj.y));
             obj.vr=vp*cos(alfa);
 
@@ -26,22 +35,15 @@ classdef point_target
         end
 
         function obj=get_ant_width(obj,ant_angle)
+            %GET_ANT_WIDTH Get antenna width at range pf the target.
             angle=deg2rad(ant_angle);
             obj.antenna_width = 2*obj.x*tan(angle/2);
 
         end
 
-        function obj = get_inst_range(obj,v_radar,dt)
-            obj.r=sqrt(obj.x^2+(obj.antenna_width/2-v_radar*dt)^2);
-        end
-
-        function obj = get_inst_range2(obj,radar_x,radar_y)
-
-            obj.r=sqrt((obj.x-radar_x)^2+(obj.y-radar_y)^2);
-
-        end
 
         function ilum = is_illuminated(obj,y_radar)
+            %IS_ILLUMINATED Return true if target is within beam. Otherwise false.
             if(obj.y <= y_radar+obj.antenna_width/2 && obj.y ...
                     >= y_radar-obj.antenna_width/2)
                 ilum = true;
@@ -50,8 +52,6 @@ classdef point_target
 
 
             ilum=false;
-
-
 
         end
 
@@ -63,30 +63,20 @@ classdef point_target
             %   t       - time vector
             %   fc      - carrier frequency
 
-            Beta=Alfa;
-            lambda=0.3;
-            T=1e-3;
 
             c=3e8;
             R=sqrt(obj.x^2+(obj.y-radar_y)^2);
             tau=2*R/c;
-            tau2=2*obj.x/c;
-
-
 
             beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
-            %beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t));
-            %beat=beat*exp(-2*pi*1i*(fc*tau));
-
-            %RVP removal
-            %beat=beat*exp(2*pi*1i*(Alfa*tau^2/2));
-
+            beat=obj.refelctivity*beat;
 
         end
 
 
 
         function point=get_point(obj)
+            %GET_POINT Return object position.
             point=[obj.x,obj.y];
         end
     end

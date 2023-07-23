@@ -40,5 +40,3 @@ draw_targets
 sgtitle('SAR Processing Steps')
 
 saveas(final_results_figure,"./graphics/final_results.png");
-figure
-imagesc(db(abs(radar.SAR_range_compressed)));
