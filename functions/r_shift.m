@@ -1,9 +1,9 @@
 function delta_R = r_shift(rd_axis,raxis,lambda,v)
-%R_SHIFT Summary of this function goes here
-%   Detailed explanation goes here
+%R_SHIFT Compute sample shifts in RANGE domain. Used for RCMC.
 
-
+% Initalize array
 delta_R=zeros(length(rd_axis),length(raxis));
+%Shift is calculated for every range point.
 for k=1:length(rd_axis)
     
     f=rd_axis(k);

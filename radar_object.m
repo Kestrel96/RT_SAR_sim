@@ -1,45 +1,51 @@
 classdef radar_object
 
-    %RADAR Summary of this class goes here
-    %   Detailed explanation goes here
+    %RADAR Class representing a radar platform.
+    %   Simple class for memory organization and basic calculations.
 
     properties
         c = 3e8;
+         
+        %radar position (in range)
+        x = 0;
+        % radar position (in azimuth)
+        y = 0; 
+        % platform velocity
+        v = 10; 
+        % Step length in azimuth direction for one pulse
+        az_step= 0;
 
-        x = 0; %radar position (in range)
-        y = 0; % radar position (in azimuth)
-
+        % Maximum antenna length for maximum range
         max_ant_length = 0;
+        % Upper antenna vertex in azimuth direction
         ant_y_upper = 0;
+        % Lower antenna vertex in azimuth direction
         ant_y_lower = 0;
+        % Range position of antenna (same as radar.x)
         ant_x = 0;
+        % azimuth resolution (NEEDS REWORK)
+        sigma_a; 
+        % range resolution
+        sigma_r;
+        % antenna beam angle
+        ant_angle = deg2rad(30); 
+        % Wavelength
+        lambda = 0; 
 
-        fc = 4e9; % carrier
-        B = 25e6; % Bandwidth
-        T = 5e-3; % Chirp time
-
-        PRI = 5e-4;
-        PRF=0;
-
-        Beta = 0 % slope
-        Alfa=0;
-        lambda = 0; % Wavelength
-        ant_angle = deg2rad(30); % antenna beam angle
-        sigma_a; % azimuth resolution
-        sigma_r;% range resolution
-        v = 10; % platform velocity
-        pulses = 1000;
-        az_step = 0;
-
+        % Raw data received from frontend
         SAR_raw_data = [];
+        % Range compressed data
         SAR_range_compressed = [];
+        % Range corrected data
         SAR_range_corrected = [];
+        % Azimuth compressed data (final image)
         SAR_azimuth_compressed = [];
+        % Azimuth reference chirp LUT for azimuth compression
         SAR_azimuth_reference_LUT = [];
+        % Range doppler domain data for RCMC
         SAR_range_doppler=[];
-        signal_length = 0;
+        
 
-        fs = 500e3; % ADC smapling rate
 
     end
 
@@ -50,43 +56,19 @@ classdef radar_object
             
 
             obj.v = v;
-            obj.B = B;
-            obj.T = T;
-            obj.fc = fc;
             obj.ant_angle = deg2rad(ant_angle);
-
-
-            obj.sigma_r=obj.c/(2*obj.B);
-
-            obj.Beta = B / T;
-            obj.Alfa=obj.Beta;
+            obj.sigma_r=obj.c/(2*B);
             obj.lambda = obj.c / fc;
-            obj.PRI=PRI;
-            obj.az_step = obj.PRI * obj.v;
-            obj.PRF=1/PRI;
-            obj.fs=max_fb*5;
+            obj.az_step = PRI * obj.v;
+
 
 
         end
 
-        function obj = get_fs(obj, max_distance)
-            %GET_FS Get ADC sampling frequnecy based on maximum expected beat frequency.
-            %max_distance - maximum expected distance
-
-            f_max = obj.Beta * 2 * max_distance / (obj.T * obj.c);
-            obj.fs = 3 * f_max;
-        end
-
-        function max_sig_length = get_max_signal_length(obj, max_distance)
-
-            max_distance = max_distance + 5;
-            f_max = obj.Beta * 2 * max_distance / (obj.T * obj.c);
-            max_sig_length = 3 * f_max * obj.PRI;
-            obj.signal_length = max_sig_length;
-
-        end
 
         function obj = get_ant_vertices(obj, max_distance)
+            %GET_VERTICES Compute antenna vertices. Needs to be run before sensing.
+            % Antenna is considered to be a triangle.
 
             L = 2 * max_distance * tan(obj.ant_angle / 2);
             obj.sigma_a=L/2;
@@ -97,26 +79,6 @@ classdef radar_object
             obj.max_ant_length = L;
 
         end
-
-        
-        function obj=export_settings(obj)
-            f= fopen('./data/radar_setupp.txt','w');
-
-            fprintf(f,"fc=%f",obj.fc);
-            fprintf(f,"B=%f",obj.B);
-            fprintf(f,"T=%f",obj.T);
-            fprintf(f,"Alfa=%f",obj.Alfa);
-            fprintf(f,"ant_angle=%f",obj.ant_angle);
-            fprintf(f,"v=%f",obj.v);
-            fprintf(f,"PRI=%f",obj.PRI);
-            fprintf(f,"PRF=%f",obj.PRF);
-            fprintf(f,"max_range=%f",obj.max_range);
-
-            close(f);
-
-
-        end
-
 
 
     end

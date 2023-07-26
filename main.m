@@ -8,7 +8,7 @@ dbstop if error
 %% Platform Parameters
 c=3e8;
 fc=35e9; % carrier
-B=75e6; % Bandwidth
+B=150e6; % Bandwidth
 T=0.5e-3; % Chirp time
 Alfa=B/T; % slope
 ant_angle=5; %antenna aperture angle (default to 20)
@@ -40,7 +40,7 @@ t2=point_target(120,35);
 t3=point_target(120,azimuth_distance/2);
 t4=point_target(230,15);
 t5=point_target(120,60);
-t6=point_target(87,55);
+t6=point_target(21,58);
 t7=point_target(20,58);
 t8=point_target(250,90);
 t9=point_target(1450,120);
@@ -86,7 +86,7 @@ shifts=round(delta_samples);
 data_dump("./data/shifts.bin",shifts);
 
 % % Range correction
-RD_range_corrected=rcmc3(radar.SAR_range_doppler,delta_samples);
+RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 %  Range-Doppler invert tranform
 radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
 %show step results
@@ -102,7 +102,7 @@ radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(max_range,ant_angle,
 
 %% Present results
 display_results
-dump_data
-export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);
+% dump_data
+% export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);
 
 
