@@ -1,12 +1,12 @@
 function [SAR_azimuth_compressed, freq_kernels] = azimuth_compression_freq(SAR_range_corrected,azimuth_LUT,range_resoultion,azimuth_LUT_resolution,max_range)
 %AZIMUTH_COMPRESSION_FREQ Performs azimuth compression in frequency domain.
-%   Azimuth compression is performed as filtering in frequnecy domain (ie. multiplication of signal and kernel).
+%   Azimuth compression is performed as filtering in frequency domain (ie. multiplication of signal and kernel).
 %   Compressed signal is also shifted left by half of kernel length and padded with zeros. 
 %   This function outputs SAR_azimuth_compressed matrix, that is azimuth compressed image and
-%   freq_kerneles that are filter kernels (of variable length) in frequency domain. First value of 
-%   azimuth_LUT is lenght of the kernel determined by calculation of time of illumination of reference target.
+%   freq_kernels that are filter kernels (of variable length) in frequency domain. First value of 
+%   azimuth_LUT is length of the kernel determined by calculation of time of illumination of reference target.
 %
-%   range_resolutionm      - SAR system range resoultion (used to determine LUT index to get correct reference function)
+%   range_resolution      - SAR system range resolution (used to determine LUT index to get correct reference function)
 %   azimuth_LUT_resolution - resolution of azimuth_LUT
 %   max_range              - maximum range taken into account. 
 
@@ -33,7 +33,7 @@ if LUT_index <= 0
     LUT_index=1;
 end
 
-% The actual range compressed data are bigger than maximum range. If there are no more reference functions left rest of data is discarded.
+% The actual range compressed data are bigger than maximum range. If there are no more reference functions left rest of the data is discarded.
 if LUT_index > max_range/azimuth_LUT_resolution
     break
 end
@@ -41,7 +41,7 @@ end
 % Obtain the azimuth chirp at given range/frequency.
 azimuth_chirp=SAR_range_corrected(:,k)';
 
-% Get kernel length. If for some reason the lenght is greater than azimuth steps clip this signal to maximum size (that is azimuth_steps).
+% Get kernel length. If for some reason the length is greater than azimuth steps clip this signal to maximum size (that is azimuth_steps).
 kernel_length=azimuth_LUT(LUT_index,1);
 if kernel_length > azimuth_steps
     kernel_length=azimuth_steps;
@@ -65,7 +65,7 @@ COMPRESSED=AZCH.*H;
 
 % Return to time domain. (This could actually be made with batch processing on GPU).
 compressed=ifft(COMPRESSED);
-% Filtered signal has peaks (in this case) at the end of acutal azimuth chirp. Thata is because
+% Filtered signal has peaks (in this case) at the end of actual azimuth chirp. That is because
 % the filter "matches" best when kernel fully covers the signal (ref Cummings p. 93). To get to actual position of object the compressed signal is shifted left by
 % kernel_lenght/2 samples. The part that wraps around is discarded (=0).
 compressed=circshift(compressed,-floor(kernel_length/2));
