@@ -1,4 +1,5 @@
 addpath("display_scripts")
+addpath("msc")
 addpath("functions")
 close all
 clear

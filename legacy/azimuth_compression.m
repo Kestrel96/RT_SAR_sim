@@ -1,15 +1,6 @@
 function SAR_azimuth_compressed = azimuth_compression(SAR_range_corrected,azimuth_LUT)
-%AZIMUTH_COMPRESSION Summary of this function goes here
-%   Detailed explanation goes here
-
-
-
-
-
-
-
-
-
+%AZIMUTH_COMPRESSION Azimuth compression in time domain. Legacy function.
+%   Azimuth compression based on time domain matched filtering.
 
 [azimuth_steps,samples]=size(SAR_range_corrected);
 
