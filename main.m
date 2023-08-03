@@ -103,7 +103,7 @@ radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(max_range,ant_angle,
 
 %% Present results
 display_results
-% dump_data
+dump_data
 % export_settings(fc,B,T,Alfa,ant_angle,v,PRI,PRF,max_range);
 
 
