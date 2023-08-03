@@ -1,4 +1,5 @@
 # RT_SAR_sim
+
 Simulation project for RT_SAR on CUDA thesis. 
 
 ```
@@ -21,3 +22,4 @@ In the first section User can modify radar parameters, add targets etc.
 
 ### Sensing
 Sensing is called by `main.m`. This script is the simulation of radar frontend ie. raw data (echoes) are collected inside this script.
+
