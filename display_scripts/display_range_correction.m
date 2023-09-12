@@ -54,7 +54,7 @@ imagesc(raxis,azimuth_axis,db(abs(radar.SAR_range_compressed)));
 title("Range Compressed Data (Pre RCMC)")
 xlabel("Range [m]")
 ylabel("Azimuth distance [m]")
-draw_targets
+%draw_targets
 ax = gca;
 ax.YDir= 'normal';
 
@@ -65,6 +65,6 @@ xlim([0,max_range])
 title("Range Compressed Data (Post RCMC)")
 xlabel("Range [m]")
 ylabel("Azimuth distance [m]")
-draw_targets
+%draw_targets
 ax = gca;
 ax.YDir= 'normal';

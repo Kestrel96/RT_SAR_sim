@@ -5,6 +5,8 @@
 graphics/*
 data/*
 .vscode
+*.blob
+*.json
 
 
 !.gitkeep
