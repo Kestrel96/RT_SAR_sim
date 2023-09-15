@@ -1,11 +1,5 @@
 function dataVector = loadBlob(filepath, datatype)
 
-% if nargin < 2 || isempty(datatype)
-%  
-%      datatype = DEFAULT_DATATYPE;
-%  
-%  end
-
 
 fid = fopen(filepath);
 
@@ -17,7 +11,7 @@ end
 
 
 
-data = fread(fid);
+data = fread(fid, inf, 'single');
 
 fclose(fid);
 
