@@ -6,7 +6,7 @@ function [SAR_azimuth_compressed, freq_kernels] = azimuth_compression_freq(SAR_r
 %   freq_kernels that are filter kernels (of variable length) in frequency domain. First value of 
 %   azimuth_LUT is length of the kernel determined by calculation of time of illumination of reference target.
 %
-%   range_resolution      - SAR system range resolution (used to determine LUT index to get correct reference function)
+%   range_resolution       - SAR system range resolution (used to determine LUT index to get correct reference function)
 %   azimuth_LUT_resolution - resolution of azimuth_LUT
 %   max_range              - maximum range taken into account. 
 

@@ -48,9 +48,13 @@ c=3e8;
 fc=params.carrierFreq; % carrier
 B=params.bandwidth; % Bandwidth
 T=1/params.sweepsPerSecond; % Chirp time
+v=params.averageVelocity; % platform's velocity
+central_swath_range=params.centralSwathRange;
+
+
 Alfa=B/T; % slope
 ant_angle=5; %antenna aperture angle (default to 20)
-v=params.averageVelocity; % platform's velocity
+
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
 max_range=1500;% max range of radar, used to calculate antenna max width and
@@ -65,6 +69,7 @@ fs=params.samplingFreq;
 %t=0:1/fs:T-1/fs;
 samples=params.samplesPerSweep;
 azimuth_samples=sweeps;
+range_samples=params.samplesPerSweep;
 azimuth_distance=sweeps*PRI*v;
 azimuth_step=azimuth_distance/azimuth_samples;
 
@@ -75,6 +80,19 @@ radar.SAR_raw_data=raw_data;
 flight_time=sweeps/params.sweepsPerSecond;
 flight_distance=v*flight_time;
 flight_step=flight_distance/sweeps;
+
+
+%% az
+get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,2,0.25,v,PRI,Alfa,fc,fs);
+
+%% Sensing
+t1=point_target(10,45);
+t2=point_target(120,35);
+targets=[t1,t2];
+
+sensing
+
+
 
 %% Axes
 %beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
