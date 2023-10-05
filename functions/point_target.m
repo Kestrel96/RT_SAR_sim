@@ -69,7 +69,26 @@ classdef point_target
             tau=2*R/c;
 
             beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
-            beat=obj.refelctivity*beat;
+            %beat=exp(2*pi*1i*(Alfa*tau*t*1e-3));
+           
+           
+
+         
+            % f0=Alfa*tau;
+            % phi0=4*pi*2*R/0.0086;
+            % beat=exp(2*pi*1i*(f0*t+phi0));
+
+
+
+        end
+
+        function fb=get_fb(obj,radar_y,Alfa)
+            c=3e8;
+            R=sqrt(obj.x^2+(obj.y-radar_y)^2);
+            tau=2*R/c;
+
+            fb=Alfa*tau;
+
 
         end
 

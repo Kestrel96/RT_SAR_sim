@@ -100,10 +100,13 @@ sample_axis=1:1:samples;
 
 %% Range compression
 radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
-display_range_compressed
+%display_range_compressed
+
+
+
 
 %%
-azimuth_reference_LUT = get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,2,0.25,params.averageVelocity,PRI,Alfa,fc,fs);
+azimuth_reference_LUT = get_azimuth_reference_chirp(5000,params.centralSwathRange,params.swathWidth,2,0.25,params.averageVelocity,PRI,Alfa,fc,fs);
 radar.SAR_azimuth_compressed=azimuth_compression(radar.SAR_range_compressed,azimuth_reference_LUT,0.25,0.25,123);
 
 %%

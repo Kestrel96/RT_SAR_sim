@@ -8,14 +8,16 @@ function [SAR_azimuth_compressed, freq_kernels] = azimuth_compression(SAR_range_
     for k=  1: columns
 
         azimuth_chirp=SAR_range_corrected(:,k);
-        AZ_CHIRP=fft(azimuth_chirp);
+        AZ_CHIRP=fftshift(fft(azimuth_chirp));
 
         kernel=azimuth_LUT(k,:);
-        KERNEL=fftshift(fft(kernel));
+        KERNEL=fft(kernel);
         KERNEL=[KERNEL zeros(1,rows-length(KERNEL))];
-        KERNEL=KERNEL';
+        KERNEL=KERNEL.';
+        %KERNEL=conj(KERNEL);
 
         compressed=ifft(KERNEL.*AZ_CHIRP);
+        %compressed=KERNEL.*AZ_CHIRP;
         SAR_azimuth_compressed(:,k)=compressed;
 
         

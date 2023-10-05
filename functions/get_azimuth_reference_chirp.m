@@ -18,6 +18,7 @@ for k=1:LUT_rows
     tmp=a1/(swath_central_range+swath_width/2);
     b2=kernel_length;
     length_multiplier=a1/(swath_central_range+swath_width/2);
+    length_multiplier=1;
     ref_length=round(length_multiplier*kernel_length);
     
     distances=sqrt(radar_positions.^2+range_axis(k).^2);
@@ -26,6 +27,7 @@ for k=1:LUT_rows
     lendiff=kernel_length-ref_length;
     lendiff=round(lendiff/2);
     reference=exp(2*pi*1i*(fc*tau+Alfa*tau.^2));
+    reference=conj(reference);
     reference(1:lendiff)=0;
     reference(end-lendiff:end)=0;
 
