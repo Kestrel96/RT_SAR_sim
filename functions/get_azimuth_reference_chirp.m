@@ -1,6 +1,14 @@
 
 function azimuth_reference_LUT = get_azimuth_reference_chirp(kernel_length,swath_central_range,swath_width,ant_angle,range_resolution,v,PRI,Alfa,fc,fs)
 
+% explain how it is done - explain matched filtering, change name from LUT,
+% matched filter array 
+
+% take mean lenght of kernel
+
+% doppler centroids maybe shifted from 0 - maovement of platform in side
+% direction -> add this to simulation
+
 
 c=3e8;
 
@@ -14,12 +22,12 @@ radar_positions=-kernel_length/2*azimuth_step:azimuth_step:kernel_length/2*azimu
 
 
 for k=1:LUT_rows
-    a1=(swath_central_range-swath_width/2)+(range_axis(k)-swath_central_range+swath_width/2);
-    tmp=a1/(swath_central_range+swath_width/2);
-    b2=kernel_length;
-    length_multiplier=a1/(swath_central_range+swath_width/2);
-    length_multiplier=1;
-    ref_length=round(length_multiplier*kernel_length);
+    % a1=(swath_central_range-swath_width/2)+(range_axis(k)-swath_central_range+swath_width/2);
+    % tmp=a1/(swath_central_range+swath_width/2);
+    % b2=kernel_length;
+    % length_multiplier=a1/(swath_central_range+swath_width/2);
+    % length_multiplier=1;
+    % ref_length=round(length_multiplier*kernel_length);
     
     distances=sqrt(radar_positions.^2+range_axis(k).^2);
     tau=2*distances./c;

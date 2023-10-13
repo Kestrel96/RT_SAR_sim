@@ -67,8 +67,9 @@ classdef point_target
             c=3e8;
             R=sqrt(obj.x^2+(obj.y-radar_y)^2);
             tau=2*R/c;
-
+            
             beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
+            %beat=exp(2*pi*1i*(Alfa*tau*t));
             %beat=exp(2*pi*1i*(Alfa*tau*t*1e-3));
            
            
