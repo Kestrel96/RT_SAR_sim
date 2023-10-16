@@ -1,5 +1,5 @@
 figure
-imagesc(rangeAxis,azimuth_axis,db(abs(radar.SAR_range_compressed)))
+imagesc(raxis,azimuth_axis,db(abs(radar.SAR_range_compressed)))
 xlabel("Range [m]")
 ylabel("Azimuth [m]")
 title("Range Compressed Data")

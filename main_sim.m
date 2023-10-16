@@ -14,19 +14,18 @@ params = loadStructFromJson("./radarParameters.json");
 
 
 
-% axis - negative and positive side
-% beat ferquency - is too high with given parameters
-% aliasing in range doppler domain - what to do?
-% how to get rid of too high beat frequency when target is very far
+% range axis, which one is good?
 
 %%
 %ddc is like modulation - modulating sine is equivalent to central swath
 % range
-%range frequency
+% range frequency
 %beamwidth such that ther is no aliasing (5 deg for first try)
 %
 
 %% Platform Parameters
+params.centralSwathRange=1000;
+
 c=3e8;
 fc=params.carrierFreq; % carrier
 B=params.bandwidth; % Bandwidth
@@ -34,10 +33,11 @@ T=1/params.sweepsPerSecond; % Chirp time
 Alfa=B/T; % slope
 ant_angle=5; %antenna aperture angle (default to 20)
 v=params.averageVelocity; % platform's velocity
-central_swath_range=1000;
+central_swath_range=params.centralSwathRange;
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
 fs=params.samplingFreq;
+%fs=15000000;
 radar=radar_object(B,T,fc,v,PRI,ant_angle,1000);
 
 
@@ -50,12 +50,11 @@ range_samples=samples;%rename in sensing script later
 % Axes
 NRange=samples;
 sigma_r=c/(2*B);
-rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1) *sigma_r;
-rangeAxis=rangeAxis+central_swath_range;
+rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1) *sigma_r; %hmmmm?
+%rangeAxis=rangeAxis+central_swath_range;
 
 
 faxis=-fs/2:fs/samples:fs/2-fs/samples;
-%faxis=0:fs/samples:fs-fs/samples;
 raxis=freq2dist(faxis,Alfa);
 
 
@@ -66,17 +65,17 @@ azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
 %% Sensing
 % x is range, y is azimuth
 csr=central_swath_range;
-t1=point_target(csr+300,100);
-t2=point_target(csr,100);
-t3=point_target(csr+100,100);
-targets=[t1];
+t1=point_target(csr+50,100);
+t2=point_target(csr-100,100);
+t3=point_target(csr,100);
+t4=point_target(csr,20);
+targets=[t1,t2,t3,t4];
 sensing
 
 %display_raw
 
 
 %% Radar processing
-%% DDC
 %% Range compression
 radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
 display_range_compressed

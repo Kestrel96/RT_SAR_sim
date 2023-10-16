@@ -32,6 +32,9 @@ classdef radar_object
         % Wavelength
         lambda = 0; 
 
+
+        %Frontend output, only used in simulation
+        SAR_frontend_out=[];
         % Raw data received from frontend
         SAR_raw_data = [];
         % Range compressed data
