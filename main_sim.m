@@ -86,37 +86,6 @@ display_range_doppler
 
 
 
-%% 
-
-
-
-
-
- % x=exp(2*pi*1i*(1e6*t));
- % plot_signal(faxis,radar.SAR_raw_data(5000,:));
- % 
- % plot_signal(x,faxis);
-
-
-
-
-
-% %% Axes
-% %beat=exp(2*pi*1i*(fc*tau+Alfa*tau*t-(Alfa*tau^2/2)));
-% f_step=fs/samples;
-% faxis=0:fs/samples:fs-1/fs;
-% raxis=faxis*c*T/(2*B);
-% NRange=samples;
-% rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1) * c / (2 * B);
-%
-%
-% rd_axis=-PRF/2:PRF/azimuth_samples:PRF/2-1/PRF; %Range-Doppler domain axis (azimuth as frequency)
-%
-% azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
-% sample_axis=1:1:samples;
-%
-%
-
 
 
 

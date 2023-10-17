@@ -35,7 +35,7 @@ classdef point_target
         end
 
         function obj=get_ant_width(obj,ant_angle)
-            %GET_ANT_WIDTH Get antenna width at range pf the target.
+            %GET_ANT_WIDTH Get antenna width at range of the target.
             angle=deg2rad(ant_angle);
             obj.antenna_width = 2*obj.x*tan(angle/2);
 

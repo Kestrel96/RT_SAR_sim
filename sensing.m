@@ -36,6 +36,12 @@ noise_mult=1;
 fprintf("Sensing\n");
 load("fNum.mat");
 %%
+
+for k=1:length(targets)
+    targets(k)=targets(k).get_ant_width(ant_angle);
+end
+
+
 for k=1:azimuth_samples
 
     tmp_signal=zeros(1,frontend_samples);
@@ -43,11 +49,12 @@ for k=1:azimuth_samples
 
         illuminated=targets(l).is_illuminated(radar.y);
 
-
-        fb=targets(l).get_fb(radar.y,Alfa);
-        beat=targets(l).get_beat(radar.y,Alfa,t,fc);
-        %beat=filter(fNum,1,beat);
-        tmp_signal=tmp_signal+beat;
+        if illuminated
+            fb=targets(l).get_fb(radar.y,Alfa);
+            beat=targets(l).get_beat(radar.y,Alfa,t,fc);
+            %beat=filter(fNum,1,beat);
+            tmp_signal=tmp_signal+beat;
+        end
 
     end
 
@@ -67,7 +74,7 @@ for k=1:azimuth_samples
 
     radar.SAR_frontend_out(k,:)=radar.SAR_frontend_out(k,:).*csr_signal;
     radar.SAR_raw_data(k,:)=decimate(radar.SAR_frontend_out(k,:),dec_factor,"fir");
-    
+
 
     progress_bar(k,128,2048,azimuth_samples,"ddc step");
 
