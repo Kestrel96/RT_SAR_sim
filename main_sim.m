@@ -56,7 +56,8 @@ rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1) *sigma_r; %hmmmm?
 
 faxis=-fs/2:fs/samples:fs/2-fs/samples;
 raxis=freq2dist(faxis,Alfa);
-
+raxis_csr=raxis+params.centralSwathRange;
+rd_axis=-PRF/2:PRF/azimuth_samples:PRF/2-1/PRF; %Range-Doppler domain axis (azimuth as frequency)
 
 %%
 azimuth_step=T*v;
@@ -83,6 +84,28 @@ display_range_compressed
 %% Range doppler
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed);
 display_range_doppler
+
+%% RCMC
+delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
+
+
+R_to_f=2*delta_R*Alfa/c;
+delta_samples=R_to_f*samples/fs;
+
+shifts=round(delta_samples);
+data_dump("./data/shifts.bin",shifts);
+
+% % Range correction
+RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
+%  Range-Doppler invert tranform
+radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
+%show step results
+display_range_correction
+
+%% Azimuth Compression
+
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs);
+[radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 
 
