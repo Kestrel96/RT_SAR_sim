@@ -16,18 +16,22 @@ for k=1:columns
 
     % Prepare kernel (kernels are laid out row wise)
     kernel=azimuth_LUT(k,:);
+    kernel_length=length(kernel);
     % Window to smooth out sidelobes...
     w=hamming(length(kernel));
     w=w.';
     kernel=w.*kernel;
-    KERNEL=fft(kernel);
+    
     % In frequency domain length of vectors have to be the same, zero
     % apdding the kernel
-    KERNEL=[KERNEL zeros(1,rows-length(KERNEL))];
-    KERNEL=KERNEL.';
+    h=[kernel, zeros(1,rows-length(kernel))];
+    H=fft(h);
+    H=H.';
 
     % Calculate compressed signal
-    compressed=ifft(KERNEL.*AZ_CHIRP);
+    compressed=ifft(AZ_CHIRP.*H);
+    compressed=circshift(compressed,-kernel_length/2);
+    compressed(1:kernel_length/2+1)=0;
     SAR_azimuth_compressed(:,k)=compressed;
 
 

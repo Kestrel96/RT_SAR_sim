@@ -44,16 +44,19 @@ end
 for k=1:azimuth_samples
 
     tmp_signal=zeros(1,frontend_samples);
+    noise=noise_mult*randn(1,frontend_samples);
     for l=1:length(targets)
 
         illuminated=targets(l).is_illuminated(radar.y);
-
+        tmp_signal=tmp_signal+noise;
         if illuminated
             fb=targets(l).get_fb(radar.y,Alfa);
             beat=targets(l).get_beat(radar.y,Alfa,t,fc);
             %beat=filter(fNum,1,beat);
             tmp_signal=tmp_signal+beat;
+
         end
+   
 
     end
 

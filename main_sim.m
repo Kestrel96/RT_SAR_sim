@@ -56,7 +56,8 @@ t1=point_target(csr+50,100);
 t2=point_target(csr-100,100);
 t3=point_target(csr,100);
 t4=point_target(csr,20);
-targets=[t1,t2,t3,t4];
+t5=point_target(csr-15,45);
+targets=[t1,t2,t3,t4,t5];
 sensing
 
 %display_raw
@@ -97,7 +98,7 @@ display_range_correction
 radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
-
+display_azimuth_compressed;
 
 
 
