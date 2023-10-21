@@ -44,6 +44,7 @@ rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1) *sigma_r; %hmmmm?
 faxis=-fs/2:fs/samples:fs/2-fs/samples;
 raxis=freq2dist(faxis,Alfa);
 raxis_csr=raxis+params.centralSwathRange;
+raxis=raxis+params.centralSwathRange;
 rd_axis=-PRF/2:PRF/azimuth_samples:PRF/2-1/PRF; %Range-Doppler domain axis (azimuth as frequency)
 
 azimuth_step=T*v;

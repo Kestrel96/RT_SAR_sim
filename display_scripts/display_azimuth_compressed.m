@@ -6,6 +6,11 @@ xlabel("Range [m]")
 ylabel("Azimuth [m]")
 title("Range Compressed Data")
 
+
+
+draw_targets
  ax = gca;
  ax.YDir= 'normal';
+
+ 
 %draw_targets
