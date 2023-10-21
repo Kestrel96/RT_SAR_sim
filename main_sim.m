@@ -8,24 +8,11 @@ addpath("functions")
 clear
 dbstop if error
 
-% Radar frontend
-% load params from struct
-params = loadStructFromJson("./radarParameters.json");
 
 
-
-% range axis, which one is good?
-
-%%
-%ddc is like modulation - modulating sine is equivalent to central swath
-% range
-% range frequency
-%beamwidth such that ther is no aliasing (5 deg for first try)
-%
 
 %% Platform Parameters
-params.centralSwathRange=1000;
-
+params = loadStructFromJson("./radarParameters.json");
 c=3e8;
 fc=params.carrierFreq; % carrier
 B=params.bandwidth; % Bandwidth
@@ -59,7 +46,6 @@ raxis=freq2dist(faxis,Alfa);
 raxis_csr=raxis+params.centralSwathRange;
 rd_axis=-PRF/2:PRF/azimuth_samples:PRF/2-1/PRF; %Range-Doppler domain axis (azimuth as frequency)
 
-%%
 azimuth_step=T*v;
 azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
 
@@ -99,6 +85,10 @@ data_dump("./data/shifts.bin",shifts);
 RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 %  Range-Doppler invert tranform
 radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
+
+
+
+
 %show step results
 display_range_correction
 
