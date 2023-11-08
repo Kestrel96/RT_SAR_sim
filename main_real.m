@@ -14,6 +14,14 @@ dbstop if error
 % matlab stores data column wise - do not transpose
 raw_data=raw_data';
 [sweeps,samples]=size(raw_data);
+tmp=zeros(sweeps/2,samples);
+
+tmp=raw_data(1:sweeps/2,:);
+clear("raw_data");
+raw_data=tmp;
+%clear("tmp");
+
+[sweeps,samples]=size(raw_data);
 
 
 %% Platform Parameters
@@ -86,6 +94,8 @@ radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
 
 %show step results
 display_range_correction
+
+
 
 %% Azimuth Compression
 

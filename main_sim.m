@@ -4,6 +4,7 @@ close all
 addpath("display_scripts")
 addpath("msc")
 addpath("functions")
+colormap jet
 
 clear
 dbstop if error
@@ -100,7 +101,7 @@ radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralS
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 display_azimuth_compressed;
-
+draw_targets
 
 
 

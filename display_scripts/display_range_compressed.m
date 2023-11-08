@@ -1,7 +1,7 @@
 figure
 imagesc(raxis,azimuth_axis,db(abs(radar.SAR_range_compressed)))
 %imagesc(raxis,azimuth_axis,real(radar.SAR_range_compressed))
-
+colormap jet
 xlabel("Range [m]")
 ylabel("Azimuth [m]")
 title("Range Compressed Data")
