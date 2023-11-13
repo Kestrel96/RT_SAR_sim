@@ -22,8 +22,8 @@ for k=1:columns
     w=w.';
     kernel=w.*kernel;
     
-    % In frequency domain length of vectors have to be the same, zero
-    % apdding the kernel
+    % In frequency domain length of vectors have to be the same, 
+    % zero padding the kernel
     h=[kernel, zeros(1,rows-length(kernel))];
     H=fft(h);
     H=H.';

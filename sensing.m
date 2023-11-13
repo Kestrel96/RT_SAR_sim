@@ -29,7 +29,7 @@ radar.SAR_frontend_out=zeros(azimuth_samples,frontend_samples);
 radar.SAR_raw_data=zeros(azimuth_samples,range_samples);% init Raw Data array
 max_range=csr+params.swathWidth/2;
 radar=radar.get_ant_vertices(max_range);
-noise_mult=0;
+noise_mult=0.1;
 
 
 fprintf("Sensing\n");
