@@ -20,7 +20,7 @@ fc=params.carrierFreq; % carrier
 B=params.bandwidth; % Bandwidth
 T=1/params.sweepsPerSecond; % Chirp time
 Alfa=B/T; % slope
-ant_angle=5; %antenna aperture angle (default to 20)
+ant_angle=15; %antenna aperture angle (default to 20)
 v=params.averageVelocity; % platform's velocity
 central_swath_range=params.centralSwathRange;
 PRI=T; % Pulse repetition interval, assume one pulse
@@ -31,7 +31,7 @@ radar=radar_object(B,T,fc,v,PRI,ant_angle,1000);
 
 
 %% Simulation setup
-sweeps=5000; %samples in azimuth
+sweeps=1000; %samples in azimuth
 azimuth_samples=sweeps; %rename in sensing script later150
 azimuth_distance=sweeps*T*v;
 samples=params.samplesPerSweep; %samples in range
