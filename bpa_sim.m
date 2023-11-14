@@ -76,11 +76,12 @@ display_range_compressed
 %% BPA
 
 
-% Create grid
+% Create grid (center of pixel , every pixel is a number, simple value)
 sar_image=zeros();
 
 % For every pixel:
 %   Get echo from given radar positon
+%   Take samples that span across a resolution unit - 0,25 m = 
 %   Filter it with matched filter
 %   Sum it with previous echoes
 
