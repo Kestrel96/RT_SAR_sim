@@ -41,9 +41,9 @@ for k=1:LUT_rows
 
     % Calculate azimuth ref signal.
     lambda=0.0086;
-    ref2=exp(1i*2*pi*(2*distances/lambda));
+    ref2=exp(1i*2*pi*(2*(distances-range_axis(k))/lambda));
     %ref2=fliplr(ref2); % another formula, more acurate from WAT paper.
-    ref2=conj(ref2);
+    %ref2=conj(ref2);
     azimuth_reference_LUT(k,:)=ref2;
 
 

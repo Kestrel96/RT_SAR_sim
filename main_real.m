@@ -14,12 +14,15 @@ dbstop if error
 % matlab stores data column wise - do not transpose
 raw_data=raw_data';
 [sweeps,samples]=size(raw_data);
-tmp=zeros(sweeps/2,samples);
 
-tmp=raw_data(1:sweeps/2,:);
-clear("raw_data");
-raw_data=tmp;
-%clear("tmp");
+ tmp=zeros(floor(sweeps/2),samples);
+ 
+ tmp=raw_data(1:floor(sweeps/2),:);
+ clear("raw_data");
+ raw_data=tmp;
+ clear("tmp");
+
+
 
 [sweeps,samples]=size(raw_data);
 
@@ -32,7 +35,11 @@ B=params.bandwidth; % Bandwidth
 T=1/params.sweepsPerSecond; % Chirp time
 Alfa=B/T; % slope
 ant_angle=5; %antenna aperture angle (default to 20)
+
+% override
 v=params.averageVelocity; % platform's velocity
+%v=28
+
 central_swath_range=params.centralSwathRange;
 PRI=T; % Pulse repetition interval, assume one pulse
 PRF=1/PRI;
@@ -72,7 +79,7 @@ display_range_compressed
 
 %% Range doppler
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed);
-display_range_doppler
+display_range_doppler 
 
 %% RCMC
 delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
@@ -99,12 +106,17 @@ display_range_correction
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(5000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(800,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 display_azimuth_compressed;
 
 
 
+%% TODOS:
+ % - fix simulation to be compatible with real data
+ % - add comments
+ % - move focused version to CUDA
+ 
 
 

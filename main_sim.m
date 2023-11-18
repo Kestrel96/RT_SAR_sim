@@ -31,7 +31,7 @@ radar=radar_object(B,T,fc,v,PRI,ant_angle,1000);
 
 %% Simulation setup
 sweeps=10000; %samples in azimuth
-azimuth_samples=sweeps; %rename in sensing script later150
+azimuth_samples=sweeps; %rename in sensing script later
 azimuth_distance=sweeps*T*v;
 samples=params.samplesPerSweep; %samples in range
 range_samples=samples;%rename in sensing script later
