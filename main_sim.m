@@ -1,11 +1,11 @@
 %% Environment Init
 clear
-close all
+
 addpath("display_scripts")
 addpath("msc")
 addpath("functions")
 colormap jet
-
+close all
 clear
 dbstop if error
 
@@ -71,7 +71,7 @@ radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
 display_range_compressed
 
 %% Range doppler
-radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed);
+radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,true);
 display_range_doppler
 
 %% RCMC
@@ -97,9 +97,10 @@ display_range_correction
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,false);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
+%%
 display_azimuth_compressed;
 draw_targets
 

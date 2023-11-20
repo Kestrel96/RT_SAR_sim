@@ -1,5 +1,5 @@
 
-function azimuth_reference_LUT = get_azimuth_reference_chirp(kernel_length,swath_central_range,swath_width,ant_angle,range_resolution,v,PRI,Alfa,fc,fs)
+function azimuth_reference_LUT = get_azimuth_reference_chirp(kernel_length,swath_central_range,swath_width,ant_angle,range_resolution,v,PRI,Alfa,fc,fs,conjugate)
 
 % explain how it is done - explain matched filtering, change name from LUT,
 % matched filter array
@@ -43,7 +43,9 @@ for k=1:LUT_rows
     lambda=0.0086;
     ref2=exp(1i*2*pi*(2*(distances-range_axis(k))/lambda));
     %ref2=fliplr(ref2); % another formula, more acurate from WAT paper.
-    %ref2=conj(ref2);
+    if conjugate == true
+        ref2=conj(ref2);
+    end
     azimuth_reference_LUT(k,:)=ref2;
 
 

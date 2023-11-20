@@ -1,5 +1,7 @@
 %% Environment Init
+
 clear
+
 close all
 addpath("display_scripts")
 addpath("msc")
@@ -8,23 +10,23 @@ addpath("functions")
 clear
 dbstop if error
 
-
 %% Load Real Data
 [raw_data,params]=loadRawDataBlock("./radarData.blob","radarParameters.json");
 % matlab stores data column wise - do not transpose
 raw_data=raw_data';
-[sweeps,samples]=size(raw_data);
-
- tmp=zeros(floor(sweeps/2),samples);
+%%
+ [sweeps,samples]=size(raw_data);
  
- tmp=raw_data(1:floor(sweeps/2),:);
- clear("raw_data");
- raw_data=tmp;
- clear("tmp");
-
-
-
-[sweeps,samples]=size(raw_data);
+  % tmp=zeros(floor(sweeps/2),samples);
+  % 
+  % tmp=raw_data(1:floor(sweeps/2),:);
+  % clear("raw_data");
+  % raw_data=tmp;
+  % clear("tmp");
+% 
+% 
+% 
+ [sweeps,samples]=size(raw_data);
 
 
 %% Platform Parameters
@@ -75,11 +77,13 @@ radar.SAR_raw_data=zeros(sweeps,samples);
 radar.SAR_raw_data=raw_data;
 %% Range compression
 radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
-display_range_compressed
+%display_range_compressed
 
+
+% Unti here the same as simulation
 %% Range doppler
-radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed);
-display_range_doppler 
+radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,false);
+%display_range_doppler 
 
 %% RCMC
 delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
@@ -95,20 +99,24 @@ shifts=round(delta_samples);
 RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 %  Range-Doppler invert tranform
 radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
+clear RD_range_corrected
 
 
 
 
 %show step results
-display_range_correction
+%display_range_correction
 
 
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(800,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,false);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
+
+%%
+clear raw_data
 display_azimuth_compressed;
 
 
