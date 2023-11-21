@@ -33,7 +33,7 @@ noise_mult=0.1;
 
 
 fprintf("Sensing\n");
-load("fNum.mat");
+%load("fNum.mat");
 %% Sensing
 
 for k=1:length(targets)

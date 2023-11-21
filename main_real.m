@@ -76,7 +76,7 @@ azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
 radar.SAR_raw_data=zeros(sweeps,samples);
 radar.SAR_raw_data=raw_data;
 %% Range compression
-radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
+radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,true);
 %display_range_compressed
 
 
@@ -111,7 +111,7 @@ clear RD_range_corrected
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,false);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,false);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 

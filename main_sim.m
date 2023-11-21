@@ -67,7 +67,7 @@ sensing
 
 %% Radar processing
 %% Range compression
-radar.SAR_range_compressed=range_compression(radar.SAR_raw_data);
+radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,false);
 display_range_compressed
 
 %% Range doppler
@@ -97,7 +97,7 @@ display_range_correction
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,false);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 %%
