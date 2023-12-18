@@ -10,24 +10,14 @@ addpath("functions")
 clear
 dbstop if error
 
+suffix="real";
+
 %% Load Real Data
 [raw_data,params]=loadRawDataBlock("./radarData.blob","radarParameters.json");
-% matlab stores data column wise - do not transpose
-raw_data=raw_data';
-%%
- [sweeps,samples]=size(raw_data);
- 
-  % tmp=zeros(floor(sweeps/2),samples);
-  % 
-  % tmp=raw_data(1:floor(sweeps/2),:);
-  % clear("raw_data");
-  % raw_data=tmp;
-  % clear("tmp");
-% 
-% 
-% 
- [sweeps,samples]=size(raw_data);
+raw_data=raw_data.';
+[sweeps,samples]=size(raw_data);
 
+raw_data=raw_data(1:sweeps/2,1:samples);
 
 %% Platform Parameters
 %params = loadStructFromJson("./radarParameters.json");
@@ -76,15 +66,15 @@ azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
 radar.SAR_raw_data=zeros(sweeps,samples);
 radar.SAR_raw_data=raw_data;
 %% Range compression
-radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,true);
-%display_range_compressed
+radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,false);
+display_range_compressed
 
-
+close all
 % Unti here the same as simulation
 %% Range doppler
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,false);
-%display_range_doppler 
-
+display_range_doppler
+close all
 %% RCMC
 delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
 
@@ -92,42 +82,53 @@ delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
 R_to_f=2*delta_R*Alfa/c;
 delta_samples=R_to_f*samples/fs;
 
-shifts=round(delta_samples);
-%data_dump("./data/shifts.bin",shifts);
+shifts=zeros(sweeps,1);
+shifts2=zeros(sweeps,1);
+for k=1:sweeps
+shifts2(k,1)=mean(delta_samples(k,:));
+shifts(k,1)=round(mean(delta_samples(k,:)));
+end
+figure
+plot(shifts,"x")
+hold on
+plot(shifts2,LineWidth=3)
 
+data_dump("../RT_SAR_CUDA/data/inputs/shifts_real.bin",shifts);
+%%
 % % Range correction
 RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 %  Range-Doppler invert tranform
 radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
-clear RD_range_corrected
-
-
 
 
 %show step results
-%display_range_correction
-
+display_range_correction
+close all
 
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,false);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
-
+dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",radar.SAR_azimuth_reference_LUT);
+dump_array("../RT_SAR_CUDA/data/inputs/raw_data_real.bin",radar.SAR_raw_data);
 
 %%
 clear raw_data
 clear delta_samples
-clear delta_R
+clear RD_range_corrected
 clear shifts
+clear delta_R
+
+
 display_azimuth_compressed;
 
 
 
 %% TODOS:
- % - fix simulation to be compatible with real data
- % - add comments
- % - move focused version to CUDA
- 
+% - fix simulation to be compatible with real data
+% - add comments
+% - move focused version to CUDA
+
 
 

@@ -23,5 +23,6 @@ imagesc(real(radar.SAR_azimuth_compressed))
 ax = gca;
 ax.YDir= 'normal';
 title("Azimuth Compressed")
-colorbar
+cb=colorbar();
+ylabel(cb,"Power (db)")
 colormap("gray")
