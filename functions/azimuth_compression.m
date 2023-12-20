@@ -2,10 +2,12 @@ function [SAR_azimuth_compressed, freq_kernels] = azimuth_compression(SAR_range_
 
 
 % dont mind this for now...
-freq_kernels=1;
+kernel_length=length(azimuth_LUT(1,:));
 
 % Get dimensions of data array
 [rows,columns]=size(SAR_range_corrected);
+freq_kernels=zeros(columns,rows);
+
 
 % Iterate through columns - every iteration is next range bin.
 for k=1:columns
@@ -26,6 +28,7 @@ for k=1:columns
     % zero padding the kernel
     h=[kernel, zeros(1,rows-length(kernel))];
     H=fft(h);
+    freq_kernels(k,:)=H;
     H=H.';
 
     % Calculate compressed signal

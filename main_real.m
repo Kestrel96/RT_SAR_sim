@@ -110,7 +110,7 @@ close all
 
 radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
 [radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
-dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",radar.SAR_azimuth_reference_LUT);
+dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",freq_kernels.');
 dump_array("../RT_SAR_CUDA/data/inputs/raw_data_real.bin",radar.SAR_raw_data);
 
 %%
