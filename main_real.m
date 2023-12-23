@@ -17,7 +17,7 @@ suffix="real";
 raw_data=raw_data.';
 [sweeps,samples]=size(raw_data);
 
-raw_data=raw_data(1:sweeps/2,1:samples);
+% raw_data=raw_data(1:sweeps/2,1:samples);
 
 %% Platform Parameters
 %params = loadStructFromJson("./radarParameters.json");
