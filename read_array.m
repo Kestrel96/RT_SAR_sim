@@ -10,6 +10,8 @@ if fid == -1
 
 end
 
+fprintf("Reading %s\n",filepath);
+
 rows=fread(fid,1,"uint32");
 columns=fread(fid,1,"uint32");
 

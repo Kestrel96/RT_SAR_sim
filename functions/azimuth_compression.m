@@ -14,7 +14,7 @@ for k=1:columns
     
     % Get azimuth chirp from range corrected data - single column.
     azimuth_chirp=SAR_range_corrected(:,k);
-    AZ_CHIRP=fft(azimuth_chirp);
+    AZ_CHIRP=azimuth_chirp;
 
     % Prepare kernel (kernels are laid out row wise)
     kernel=azimuth_LUT(k,:);
@@ -28,70 +28,24 @@ for k=1:columns
     % zero padding the kernel
     h=[kernel, zeros(1,rows-length(kernel))];
     H=fft(h);
+    % THIS IS NEW
+    H=fftshift(H);
+    %
     freq_kernels(k,:)=H;
     H=H.';
+    
+    
+    
 
     % Calculate compressed signal
-    compressed=ifft(AZ_CHIRP.*H);
-    compressed=circshift(compressed,-kernel_length/2);
-    compressed(1:kernel_length/2+1)=0;
+    % compressed=ifft(AZ_CHIRP.*H);
+
+    compressed=AZ_CHIRP.*H;
+    %compressed=circshift(compressed,-kernel_length/2);
+    %compressed(1:kernel_length/2+1)=0;
     SAR_azimuth_compressed(:,k)=compressed;
 
 
-    % Plot some data, 766 is sample where there is a single target.
-    % if k==766
-    %     close all
-    % 
-    %     figure
-    %     tiledlayout(2,2)
-    %     nexttile
-    %     plot(real(azimuth_chirp));
-    %     title("Azimuth signal REAL")
-    % 
-    %     xlim([5000,7000])
-    %     nexttile
-    %     plot(imag(azimuth_chirp));
-    %     title("Azimuth signal IMAG")
-    %     xlim([5000,7000])
-    %     hold on
-    %     plot(imag(kernel));
-    %     title("Azimuth signal IMAG")
-    % 
-    %     hold off
-    %     nexttile
-    %     plot(real(kernel));
-    %     title("Reference signal REAL")
-    %     nexttile
-    %     plot(imag(kernel));
-    %     title("Azimuth signal IMAG")
-    % 
-    %     figure
-    %     tiledlayout(1,3)
-    %     nexttile
-    %     [c,lags] = xcorr(kernel,azimuth_chirp);
-    %     stem(lags,abs(c))
-    %     title("Xcorr, whole signal")
-    %     nexttile
-    %     [c,lags] = xcorr(real(kernel),real(azimuth_chirp));
-    %     stem(lags,c)
-    %     title("xcorr, real parts")
-    %     nexttile
-    %     [c,lags] = xcorr(imag(kernel),imag(azimuth_chirp));
-    %     stem(lags,c)
-    %     title("Xcorr, imag parts")
-    % 
-    % 
-    %     figure
-    %     tmp=conv(kernel,azimuth_chirp);
-    %     plot(abs(tmp)/max(abs(tmp)));
-    %     hold on
-    %     plot(abs(compressed)/max(abs(compressed)));
-    %     title("Convluton of kernel and azimuth chirp")
-    % 
-    % 
-    % 
-    % 
-    % end
 
     progress_bar(k,20,200,columns,"Azimuth compression")
 
