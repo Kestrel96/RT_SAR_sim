@@ -12,7 +12,7 @@ xlabel("Range [m]")
 ylabel("Doppler frequency [Hz]")
 
 nexttile
-imagesc(raxis,rd_axis,dbn(abs(RD_range_corrected)));
+imagesc(raxis,rd_axis,dbn(abs(radar.SAR_RD_range_corrected)));
 cb=colorbar();
 ylabel(cb,"Power (db)")
 title("Range Doppler Data After RCMC")
@@ -31,7 +31,8 @@ ax = gca;
 ax.YDir= 'normal';
 
 nexttile
-imagesc(raxis,rd_axis,dbn(abs(radar.SAR_range_corrected)));
+range_corrected_time=range_doppler_invert(radar.SAR_RD_range_corrected);
+imagesc(raxis,rd_axis,dbn(abs(range_corrected_time)));
 cb=colorbar();
 ylabel(cb,"Power (db)")
 clim([-50 0])
@@ -55,7 +56,7 @@ if suffix=="sim"
     imagesc(raxis,azimuth_axis,dbn(abs(radar.SAR_range_compressed)));
     clim([-50 0])
     cb=colorbar();
-ylabel(cb,"Power (db)")
+    ylabel(cb,"Power (db)")
 
 
     title("Range Compressed Data Prior to RCMC")
@@ -64,14 +65,14 @@ ylabel(cb,"Power (db)")
     ax = gca;
     ax.YDir= 'normal';
     xlim([targets(1).x-10,targets(1).x+10]);
-    
+
     draw_targets
 
     nexttile
-    imagesc(raxis,azimuth_axis,dbn(abs(radar.SAR_range_corrected)));
+    imagesc(raxis,azimuth_axis,dbn(abs(range_corrected_time)));
     clim([-50 0])
     cb=colorbar();
-ylabel(cb,"Power (db)")
+    ylabel(cb,"Power (db)")
     title("Effect of RCMC")
     xlabel("Range [m]")
     ylabel("Azimuth distance [m]")

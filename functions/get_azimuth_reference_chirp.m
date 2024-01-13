@@ -6,7 +6,7 @@ function azimuth_reference_LUT = get_azimuth_reference_chirp(kernel_length,swath
 
 % take mean lenght of kernel
 
-% doppler centroids maybe shifted from 0 - maovement of platform in side
+% doppler centroids maybe shifted from 0 - movement of platform in side
 % direction -> add this to simulation
 
 

@@ -1,5 +1,5 @@
-rows=10;
-columns=20;
+rows=12000;
+columns=2000;
 
 
 kernels=zeros(rows,columns);
@@ -25,15 +25,16 @@ dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/test_data/azc_signals.bin",sig
 dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",kernels);
 
 
-final=normalize(signal.*kernels);
+final=signal.*kernels;
 
 
 
 
 %%
-cuda_azc2=normalize(read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/outputs/azc2.bin"));
+cuda_azc2=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/outputs/azc2.bin");
 cuda_kernels=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/outputs/azc2_kernels.bin");
 
+figure
 tiledlayout(1,2);
 nexttile
 imagesc(abs(final));
@@ -41,11 +42,30 @@ nexttile
 imagesc(abs(cuda_azc2));
 title("cuda out")
 
-tiledlayout(1,2)
+
+figure
+tiledlayout(1,4);
 nexttile
-imagesc(abs(kernels));
-title("kernels")
+imagesc(real(final));
+title("data real")
 nexttile
-imagesc(abs(cuda_kernels));
-title("azc2 kernels")
+imagesc(real(cuda_azc2));
+title("cuda out real")
+nexttile
+imagesc(imag(final));
+title("data imag")
+nexttile
+imagesc(imag(cuda_azc2));
+title("cuda out imag")
+
+real_diff=real(final)-real(cuda_azc2);
+imag_diff=imag(final)-imag(cuda_azc2);
+% figure
+% tiledlayout(1,2)
+% nexttile
+% imagesc(abs(kernels));
+% title("kernels")
+% nexttile
+% imagesc(abs(cuda_kernels));
+% title("azc2 kernels")
 

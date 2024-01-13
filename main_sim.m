@@ -105,32 +105,33 @@ plot(shifts2,LineWidth=3)
 data_dump("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/shifts_sim.bin",shifts);
 
 % % Range correction
-RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
+radar.SAR_RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 %  Range-Doppler invert tranform
-radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
+% radar.SAR_range_corrected=range_doppler_invert(RD_range_corrected);
 
-
-clear delta_samples
-
-clear delta_R
 
 %show step results
 display_range_correction
 close all
-%%
-clear RD_range_corrected
 
 %% Azimuth Compression
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
-[radar.SAR_azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
-dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/frequency_kernels_sim.bin",freq_kernels);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
+[radar.SAR_azimuth_compressed_freq, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
+
+
+%  Range-Doppler invert tranform
+figure
+imagesc(db(radar.SAR_azimuth_compressed_freq));
+radar.SAR_azimuth_compressed=range_doppler_invert(radar.SAR_azimuth_compressed_freq);
+dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/frequency_kernels_sim.bin",freq_kernels.');
 dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/raw_data_sim.bin",radar.SAR_raw_data);
 
-%%
+
 display_azimuth_compressed;
 
 
+%%
 close all
 
 

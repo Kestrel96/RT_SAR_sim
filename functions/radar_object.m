@@ -47,6 +47,10 @@ classdef radar_object
         SAR_azimuth_reference_LUT = [];
         % Range doppler domain data for RCMC
         SAR_range_doppler=[];
+        %
+        SAR_RD_range_corrected=[];
+        %
+        SAR_azimuth_compressed_freq=[];
         
 
 

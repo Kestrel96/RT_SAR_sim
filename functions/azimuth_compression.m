@@ -8,6 +8,8 @@ kernel_length=length(azimuth_LUT(1,:));
 [rows,columns]=size(SAR_range_corrected);
 freq_kernels=zeros(columns,rows);
 
+SAR_azimuth_compressed=zeros(size(SAR_range_corrected));
+
 
 % Iterate through columns - every iteration is next range bin.
 for k=1:columns
