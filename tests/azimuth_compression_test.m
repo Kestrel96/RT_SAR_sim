@@ -4,7 +4,7 @@ cuda_range_corrected=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/outp
 cuda_final=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/outputs/final.bin");
 
 azimuth_compressed=radar.SAR_azimuth_compressed;
-range_corrected=RD_range_corrected;
+range_corrected=radar.SAR_RD_range_corrected;
 sar_final=radar.SAR_azimuth_compressed;
 
 %%
