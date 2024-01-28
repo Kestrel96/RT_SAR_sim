@@ -1,10 +1,11 @@
 %% Environment Init
 
-clear
+%clear
 
 close all
 addpath("display_scripts")
 addpath("msc")
+
 addpath("functions")
 
 clear
@@ -12,12 +13,20 @@ dbstop if error
 
 suffix="real";
 
+%%
+%001
+range_compression_shift=false;
+range_doppler_shift=true;
+range_doppler_invert_shift=false;
+kernel_conjugate=true;
 %% Load Real Data
-[raw_data,params]=loadRawDataBlock("./radarData.blob","radarParameters.json");
-raw_data=raw_data.';
+
+%raw_data=read_array("./data/dataset1/raw_data_1.bin");
+%params= loadStructFromJson("./data/dataset1/radarParameters.json");
+ raw_data=read_array("./data/dataset2/raw_data_2.bin");
+ params= loadStructFromJson("./data/dataset2/radarParameters2.json");
 [sweeps,samples]=size(raw_data);
 
-% raw_data=raw_data(1:sweeps/2,1:samples);
 
 %% Platform Parameters
 %params = loadStructFromJson("./radarParameters.json");
@@ -65,14 +74,17 @@ azimuth_axis=0:azimuth_step:azimuth_distance-azimuth_step;
 %% Radar processing
 radar.SAR_raw_data=zeros(sweeps,samples);
 radar.SAR_raw_data=raw_data;
+clear raw_data
 %% Range compression
-radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,false);
+%false
+radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,range_compression_shift);
 display_range_compressed
 
 close all
 % Unti here the same as simulation
 %% Range doppler
-radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,false);
+%false
+radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,range_doppler_shift);
 display_range_doppler
 close all
 %% RCMC
@@ -85,8 +97,8 @@ delta_samples=R_to_f*samples/fs;
 shifts=zeros(sweeps,1);
 shifts2=zeros(sweeps,1);
 for k=1:sweeps
-shifts2(k,1)=mean(delta_samples(k,:));
-shifts(k,1)=round(mean(delta_samples(k,:)));
+    shifts2(k,1)=mean(delta_samples(k,:));
+    shifts(k,1)=round(mean(delta_samples(k,:)));
 end
 figure
 plot(shifts,"x")
@@ -107,14 +119,16 @@ close all
 
 
 %% Azimuth Compression
-
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
+%true
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
 [azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
-radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed);
+radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppler_invert_shift);
 
 dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",freq_kernels.');
 dump_array("../RT_SAR_CUDA/data/inputs/raw_data_real.bin",radar.SAR_raw_data);
+clear freq_kernels
+clear radar.SAR_raw_data
 
 
 

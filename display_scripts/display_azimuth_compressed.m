@@ -4,7 +4,7 @@ cb=colorbar();
 ylabel(cb,"Power (db)")
 
 imagesc(raxis,azimuth_axis,dbn(radar.SAR_azimuth_compressed));
-clim([-50,0]);
+clim([-60,0]);
 
 %imagesc(raxis,azimuth_axis,db(abs(radar.SAR_azimuth_compressed)))
 cb=colorbar();

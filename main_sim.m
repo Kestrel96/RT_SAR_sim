@@ -12,8 +12,11 @@ dbstop if error
 
 suffix="sim";
 
-
-
+%%
+range_compression_shift=false;
+range_doppler_shift=true;
+range_doppler_invert_shift=false;
+kernel_conjugate=true;
 
 %% Platform Parameters
 params = loadStructFromJson("./radarParameters.json");
@@ -41,7 +44,7 @@ range_samples=samples;%rename in sensing script later
 % Axes
 NRange=samples;
 sigma_r=c/(2*B);
-rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1) *sigma_r; %hmmmm?
+rangeAxis = (-(NRange) / 2 : ( (NRange ) / 2) - 1); %hmmmm?
 %rangeAxis=rangeAxis+central_swath_range;
 
 
@@ -70,7 +73,7 @@ sensing
 
 %% Radar processing
 %% Range compression
-radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,false);
+radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,range_compression_shift);
 %%
 display_range_compressed
 close all
@@ -78,7 +81,7 @@ close all
 %% Range doppler
 
 % Tehre should be no fftshift here
-radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,true);
+radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,range_doppler_shift);
 display_range_doppler
 close all
 %% RCMC
@@ -115,17 +118,16 @@ display_range_correction
 close all
 
 %% Azimuth Compression
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
+[azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,true);
-[radar.SAR_azimuth_compressed_freq, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
+radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppler_invert_shift);
 
+% dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",freq_kernels.');
+% dump_array("../RT_SAR_CUDA/data/inputs/raw_data_real.bin",radar.SAR_raw_data);
+clear freq_kernels
+clear radar.SAR_raw_data
 
-%  Range-Doppler invert tranform
-figure
-imagesc(db(radar.SAR_azimuth_compressed_freq));
-radar.SAR_azimuth_compressed=range_doppler_invert(radar.SAR_azimuth_compressed_freq);
-dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/frequency_kernels_sim.bin",freq_kernels.');
-dump_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/raw_data_sim.bin",radar.SAR_raw_data);
 
 
 display_azimuth_compressed;

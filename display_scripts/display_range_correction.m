@@ -31,7 +31,7 @@ ax = gca;
 ax.YDir= 'normal';
 
 nexttile
-range_corrected_time=range_doppler_invert(radar.SAR_RD_range_corrected);
+range_corrected_time=range_doppler_invert(radar.SAR_RD_range_corrected,range_doppler_invert_shift);
 imagesc(raxis,rd_axis,dbn(abs(range_corrected_time)));
 cb=colorbar();
 ylabel(cb,"Power (db)")
