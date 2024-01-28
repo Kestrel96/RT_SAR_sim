@@ -21,10 +21,10 @@ range_doppler_invert_shift=false;
 kernel_conjugate=true;
 %% Load Real Data
 
-%raw_data=read_array("./data/dataset1/raw_data_1.bin");
-%params= loadStructFromJson("./data/dataset1/radarParameters.json");
- raw_data=read_array("./data/dataset2/raw_data_2.bin");
- params= loadStructFromJson("./data/dataset2/radarParameters2.json");
+
+ %raw_data=read_array("./data/dataset2/raw_data_2.bin");
+ %params= loadStructFromJson("./data/dataset2/radarParameters2.json");
+ read_dataset
 [sweeps,samples]=size(raw_data);
 
 
@@ -120,7 +120,7 @@ close all
 
 %% Azimuth Compression
 %true
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
 [azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppler_invert_shift);
