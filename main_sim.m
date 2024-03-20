@@ -85,27 +85,29 @@ radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,range
 display_range_doppler
 close all
 %% RCMC
-delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
+% delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
+% 
+% 
+% R_to_f=2*delta_R*Alfa/c;
+% delta_samples=R_to_f*samples/fs;
+% 
+% %shift SHIFTS instead
+% %%
+% shifts=zeros(sweeps,1);
+% shifts2=zeros(sweeps,1);
+% for k=1:sweeps
+% shifts2(k,1)=mean(delta_samples(k,:));
+% shifts(k,1)=round(mean(delta_samples(k,:)));
+% end
+% %%
+% figure
+% plot(shifts,"x")
+% hold on
+% plot(shifts2,LineWidth=3)
 
-
-R_to_f=2*delta_R*Alfa/c;
-delta_samples=R_to_f*samples/fs;
-
-%shift SHIFTS instead
+delta_samples=delta_s(rd_axis,raxis,radar.lambda,radar.v,Alfa,samples,fs,c);
 %%
-shifts=zeros(sweeps,1);
-shifts2=zeros(sweeps,1);
-for k=1:sweeps
-shifts2(k,1)=mean(delta_samples(k,:));
-shifts(k,1)=round(mean(delta_samples(k,:)));
-end
-%%
-figure
-plot(shifts,"x")
-hold on
-plot(shifts2,LineWidth=3)
-%%
-data_dump("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/shifts_sim.bin",shifts);
+data_dump("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/shifts_sim.bin",delta_samples);
 
 % % Range correction
 radar.SAR_RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
