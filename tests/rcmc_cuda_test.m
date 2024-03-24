@@ -48,7 +48,7 @@ legend("shifts","shifts_{cuda}","shifts_{matlab}")
 
 %%
 
-cuda_shifts=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/shifts_cuda.bin");
+cuda_shifts=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/shifts_test.bin");
 
 figure
 plot(cuda_shifts)

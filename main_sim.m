@@ -120,14 +120,21 @@ display_range_correction
 close all
 
 %% Azimuth Compression
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
+kernel_length=1000;
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(kernel_length,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
 [azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppler_invert_shift);
 
+
+for k=1:samples
+    radar.SAR_azimuth_compressed(:,k)=circshift(radar.SAR_azimuth_compressed(:,k),-kernel_length/2);
+    radar.SAR_azimuth_compressed(1:kernel_length/2+1,k)=0;
+end
+
 % dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",freq_kernels.');
 % dump_array("../RT_SAR_CUDA/data/inputs/raw_data_real.bin",radar.SAR_raw_data);
-clear freq_kernels
+%clear freq_kernels
 clear radar.SAR_raw_data
 
 

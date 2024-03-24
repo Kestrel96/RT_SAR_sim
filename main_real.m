@@ -130,7 +130,7 @@ radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppl
 
 %dump_array("../RT_SAR_CUDA/data/inputs/frequency_kernels_real.bin",freq_kernels.');
 %dump_array("../RT_SAR_CUDA/data/inputs/raw_data_real.bin",radar.SAR_raw_data);
-clear freq_kernels
+%clear freq_kernels
 clear radar.SAR_raw_data
 clear radar.SAR_RD_range_corrected
 
