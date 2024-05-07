@@ -22,9 +22,9 @@ for k=1:columns
     kernel=azimuth_LUT(k,:);
     kernel_length=length(kernel);
     % Window to smooth out sidelobes...
-     w=hamming(length(kernel));
-     w=w.';
-     kernel=w.*kernel;
+    %w=hamming(length(kernel));
+    %w=w.';
+    %kernel=w.*kernel;
     
     % In frequency domain length of vectors have to be the same, 
     % zero padding the kernel

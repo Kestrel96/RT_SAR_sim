@@ -4,17 +4,11 @@ kernel_length=1000;
 tk=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/cuda_tkernels.bin");
 % tk=tk.';
 
-w=hamming(kernel_length);
-w=w.';
-for i=1:samples
-   tk(i,1:kernel_length)=w.*tk(k,1:kernel_length);
-end
-
 
 
 
 radar_ref=radar.SAR_azimuth_reference_LUT;
-index=100;
+index=2250;
 
 figure
 tiledlayout(2,2)
@@ -60,7 +54,7 @@ legend("Matlab","CUDA","CUDA_{windowed}")
 
 %%
 %radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(kernel_length,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
-radar.SAR_azimuth_reference_LUT=tk;
+radar.SAR_azimuth_reference_LUT=tk(:,1:kernel_length);
 [azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppler_invert_shift);
@@ -85,12 +79,22 @@ display_azimuth_compressed;
 
 
 
-%%
-cuda_final = read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/cuda_final.bin");
-cuda_final=normalize(cuda_final);
+% %%
+% cuda_final = read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/cuda_final.bin");
+% cuda_final=normalize(cuda_final);
+% 
+% figure
+% imagesc(db(cuda_final));
 
-figure
-imagesc(db(cuda_final));
+
+
+% %% Normalized
+% cuda_callback = read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/cuda_callback.bin");
+% cuda_memset = read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/cuda_memset.bin");
+% 
+% figure
+% plot(real(cuda_callback(1,:)))
+
 
  %%
  % close all

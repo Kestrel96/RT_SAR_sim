@@ -68,7 +68,7 @@ t5=point_target(csr-15,45);
 targets=[t1,t2,t3,t4,t5];
 sensing
 
-%display_raw
+display_raw
 
 
 %% Radar processing

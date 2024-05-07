@@ -22,7 +22,14 @@ figure
 plot(cuda_mean_shifts)
 
 
-
+%%
+cuda_max_vector=read_array("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/build/cuda_max_vector.bin");
+raw_data=read_array("./raw.bin");
+matlab_max_vector = max(abs(raw_data),[],2);
+figure
+plot(cuda_max_vector/max(cuda_max_vector));
+hold on
+plot(matlab_max_vector-mean(matlab_max_vector));
 
 
 
