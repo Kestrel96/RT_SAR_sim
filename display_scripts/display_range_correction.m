@@ -43,7 +43,7 @@ ax = gca;
 ax.YDir= 'normal';
 
 saveas(range_corrected_figure,"./graphics/range_correction_"+suffix+".png");
-saveas(range_corrected_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/range_correction_"+suffix+".png");
+%saveas(range_corrected_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/range_correction_"+suffix+".png");
 
 %% Display RCMC effect
 if suffix=="sim"
@@ -83,5 +83,5 @@ if suffix=="sim"
 
 
     saveas(rcmc_effect_figure,"./graphics/range_correction_effect_"+suffix+".png");
-    saveas(rcmc_effect_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/range_correction_effect_"+suffix+".png");
+%    saveas(rcmc_effect_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/range_correction_effect_"+suffix+".png");
 end

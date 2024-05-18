@@ -107,7 +107,7 @@ close all
 
 delta_samples=delta_s(rd_axis,raxis,radar.lambda,radar.v,Alfa,samples,fs,c);
 %%
-data_dump("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/shifts_sim.bin",delta_samples);
+%data_dump("/home/kuba/Desktop/RT_SAR/RT_SAR_CUDA/data/inputs/shifts_sim.bin",delta_samples);
 
 % % Range correction
 radar.SAR_RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);

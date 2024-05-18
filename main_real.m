@@ -24,7 +24,7 @@ kernel_conjugate=true;
 
  %raw_data=read_array("./data/dataset2/raw_data_2.bin");
  %params= loadStructFromJson("./data/dataset2/radarParameters2.json");
- read_dataset
+read_dataset
 [sweeps,samples]=size(raw_data);
 
 

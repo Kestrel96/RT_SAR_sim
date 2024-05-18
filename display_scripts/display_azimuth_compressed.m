@@ -4,7 +4,7 @@ cb=colorbar();
 ylabel(cb,"Power (db)")
 
 imagesc(raxis,azimuth_axis,dbn(radar.SAR_azimuth_compressed));
-clim([-80,0]);
+clim([-60,0]);
 
 %imagesc(raxis,azimuth_axis,db(abs(radar.SAR_azimuth_compressed)))
 cb=colorbar();
@@ -25,7 +25,7 @@ draw_targets
 end
 
 saveas(final_result_figure,"./graphics/azimuth_compressed_"+suffix+".png");
-saveas(final_result_figure,"../RT_SAR_thesis/graphics/azimuth_compressed_"+suffix+".png");
+%saveas(final_result_figure,"../RT_SAR_thesis/graphics/azimuth_compressed_"+suffix+".png");
 %% Show single compressed target
 if suffix=="sim"
     single_target_final_figure=figure('Name','Azimuth Compression Single Target','NumberTitle','off','Position', [0 0 1600 900]);
@@ -53,7 +53,7 @@ ylabel(cb,"Power (db)")
 
 
     saveas(single_target_final_figure,"./graphics/azimuth_compression_single_target_"+suffix+".png");
-    saveas(single_target_final_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/azimuth_compression_single_target_"+suffix+".png");
+    %saveas(single_target_final_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/azimuth_compression_single_target_"+suffix+".png");
 end
 
 
