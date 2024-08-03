@@ -1,10 +1,18 @@
+
+if exist('db_thrsh') ~= 1
+    db_thrsh = -60;
+end
+
+
+
+
 final_result_figure=figure('Name','FinalResult','NumberTitle','off','Position', [0 0 1600 900]);
 colormap gray
 cb=colorbar();
 ylabel(cb,"Power (db)")
 
 imagesc(raxis,azimuth_axis,dbn(radar.SAR_azimuth_compressed));
-clim([-60,0]);
+clim([db_thrsh,0]);
 
 %imagesc(raxis,azimuth_axis,db(abs(radar.SAR_azimuth_compressed)))
 cb=colorbar();
@@ -35,7 +43,7 @@ if suffix=="sim"
 
 
     imagesc(raxis,azimuth_axis,dbn(radar.SAR_azimuth_compressed));
-clim([-50,0]);
+clim([db_thrsh,0]);
 cb=colorbar();
 ylabel(cb,"Power (db)")
     title("Single Target After Azimuth Compression")

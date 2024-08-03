@@ -11,6 +11,7 @@ clear
 dbstop if error
 
 suffix="sim";
+db_thrsh=-20;
 
 %%
 range_compression_shift=false;
@@ -120,7 +121,7 @@ display_range_correction
 close all
 
 %% Azimuth Compression
-kernel_length=1000;
+kernel_length=1500;
 radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(kernel_length,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
 [azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
@@ -137,7 +138,7 @@ end
 %clear freq_kernels
 clear radar.SAR_raw_data
 
-
+%%
 
 display_azimuth_compressed;
 
