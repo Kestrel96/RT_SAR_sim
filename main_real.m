@@ -80,14 +80,14 @@ clear raw_data
 %% Range compression
 %false
 radar.SAR_range_compressed=range_compression(radar.SAR_raw_data,range_compression_shift);
-%display_range_compressed
+display_range_compressed
 
 close all
 % Unti here the same as simulation
 %% Range doppler
 %false
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,range_doppler_shift);
-%display_range_doppler
+display_range_doppler
 close all
 %% RCMC
 % delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
@@ -118,7 +118,7 @@ radar.SAR_RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 
 
 %show step results
-%display_range_correction
+display_range_correction
 close all
 
 

@@ -1,3 +1,10 @@
+
+if exist('db_thrsh') ~= 1
+    db_thrsh = -60;
+end
+
+
+
 range_compressed_figure=figure('Name','RangeCompressed','NumberTitle','off','Position', [0 0 1600 900]);
 imagesc(raxis,azimuth_axis,dbn(abs(radar.SAR_range_compressed)))
 cb=colorbar();
@@ -11,7 +18,9 @@ lbl_y=ylabel("Azimuth [m]");
 lbl_y.FontSize=20;
 lbl_y.FontWeight='bold';
 
-title("Range Compressed Data")
+t=title("Range Compressed Data");
+t.FontSize=20;
+t.FontWeight='bold';
 clim([db_thrsh,0]);
 % xlim([0,max_range])
 ax = gca;
