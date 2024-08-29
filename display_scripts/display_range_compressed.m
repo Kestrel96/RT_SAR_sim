@@ -3,12 +3,19 @@ imagesc(raxis,azimuth_axis,dbn(abs(radar.SAR_range_compressed)))
 cb=colorbar();
 ylabel(cb,"Power (db)")
 colormap gray
-xlabel("Range [m]")
-ylabel("Azimuth [m]")
+lbl_x=xlabel("Range [m]");
+lbl_x.FontSize=20;
+lbl_x.FontWeight='bold';
+
+lbl_y=ylabel("Azimuth [m]");
+lbl_y.FontSize=20;
+lbl_y.FontWeight='bold';
+
 title("Range Compressed Data")
-clim([-50,0]);
+clim([db_thrsh,0]);
 % xlim([0,max_range])
-% ax = gca;
+ax = gca;
+ax.FontWeight='bold';
 % ax.YDir= 'normal';
 if suffix == "sim"
 draw_targets
