@@ -22,4 +22,3 @@ ax = gca;
 ax.FontWeight='bold';
 %ax.YDir= 'normal';
 saveas(range_doppler_figure,"./graphics/range_doppler_"+suffix+".png");
-saveas(range_doppler_figure,"../RT_SAR_thesis/graphics/range_doppler_"+suffix+".png");
