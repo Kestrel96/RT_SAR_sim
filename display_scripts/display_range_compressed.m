@@ -30,4 +30,3 @@ if suffix == "sim"
 draw_targets
 end
 saveas(range_compressed_figure,"./graphics/range_compressed_"+suffix+".png");
-saveas(range_compressed_figure,"../RT_SAR_thesis/graphics/range_compressed_"+suffix+".png");

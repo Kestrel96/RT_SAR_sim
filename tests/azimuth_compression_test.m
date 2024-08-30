@@ -89,5 +89,4 @@ ax = gca;
 ax.YDir= 'normal';
 
 saveas(cuda_vs_matlab_figure,"./graphics/cuda_vs_matlab.png");
-saveas(cuda_vs_matlab_figure,"/home/kuba/Desktop/RT_SAR/RT_SAR_thesis/graphics/cuda_vs_matlab.png");
 
