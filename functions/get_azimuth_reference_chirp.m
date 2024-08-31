@@ -1,4 +1,3 @@
-
 function azimuth_reference_LUT = get_azimuth_reference_chirp(kernel_length,swath_central_range,swath_width,ant_angle,range_resolution,v,PRI,Alfa,fc,fs,lambda,conjugate)
 
 % explain how it is done - explain matched filtering, change name from LUT,
@@ -29,6 +28,8 @@ azimuth_reference_LUT=zeros(LUT_rows,kernel_length);
 for k=1:LUT_rows
     
     %vector of distances to radar
+    %radar_postitions = b
+    %range_axis = R0
     distances=sqrt(radar_positions.^2+range_axis(k).^2);
     % vector o delays (time of flight)
     tau=2*distances./c;

@@ -1,3 +1,7 @@
+
+
+x_font_size = 15;
+y_font_size= 15;
 % Parameters
 fs = 1000;            % Sampling frequency (Hz)
 total_duration = 2.5;   % Total time duration (seconds)
@@ -31,33 +35,61 @@ noisy_signal = full_signal + noise;
 matched_filter_output = conv(noisy_signal, fliplr(signal), 'same');
 
 % Plotting the results
-matched_filter_figure=figure('Name','MatchedDemo','NumberTitle','off','Position', [0 0 1600 900]);
-subplot(4, 1, 1);
+matched_filter_figure=figure('Name','MatchedDemo','NumberTitle','off','Position', [0 0 1600 1900]);
+tiledlayout(4,1)
+nexttile
 plot(chirp_t,signal);
-title('Transmitted Signal');
-xlabel('Time (s)');
-ylabel('Amplitude');
+tit=title('Transmitted Signal');
+tit.FontSize=18;
+lbl_x=xlabel('Time (s)');
+lbl_x.FontSize=x_font_size;
+lbl_x.FontWeight='bold';
+lbl_y=ylabel('Amplitude');
+lbl_y.FontSize=y_font_size;
+lbl_y.FontWeight='bold';
 
-subplot(4,1,2)
+nexttile
 plot(chirp_t,fliplr(signal));
-title('Filter Kernel');
-xlabel('Time (s)');
-ylabel('Amplitude');
+tit=title('Filter Kernel');
+tit.FontSize=18;
+lbl_x=xlabel('Time (s)');
+lbl_x.FontSize=x_font_size;
+lbl_x.FontWeight='bold';
+
+lbl_y=ylabel('Amplitude');
+lbl_y.FontSize=y_font_size;
+lbl_y.FontWeight='bold';
 
 
-subplot(4, 1, 3);
+
+nexttile
 plot(t, noisy_signal);
-title('Noisy Signal (Echo)');
-xlabel('Time (s)');
-ylabel('Amplitude');
+tit=title('Noisy Signal (Echo)');
+tit.FontSize=18;
+lbl_x=xlabel('Time (s)');
+lbl_x.FontSize=x_font_size;
+lbl_x.FontWeight='bold';
 
-subplot(4, 1, 4);
+lbl_y=ylabel('Amplitude');
+lbl_y.FontSize=y_font_size;
+lbl_y.FontWeight='bold';
+
+
+nexttile
 plot(t, matched_filter_output/max(matched_filter_output));
 ylim([-0.3,1.1])
-title('Matched Filter Output (Normalized)');
-xlabel('Time (s)');
-ylabel('Amplitude');
+tit=title('Matched Filter Output (Normalized)');
+tit.FontSize=18;
+lbl_x=xlabel('Time (s)');
+lbl_x.FontSize=x_font_size;
+lbl_x.FontWeight='bold';
+
+lbl_y=ylabel('Amplitude');
+lbl_y.FontSize=y_font_size;
+lbl_y.FontWeight='bold';
+
 
 % Adjust layout
 %sgtitle('Matched Filtering Demonstration with Chirp Signal at 2 Seconds');
 saveas(matched_filter_figure,"./graphics/matched_demo.png");
+
