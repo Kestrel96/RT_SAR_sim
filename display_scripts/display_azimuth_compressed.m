@@ -24,7 +24,7 @@ ylabel(cb,"Power (db)")
 lbl_x=xlabel("Range [m]");
 lbl_x.FontSize=18;
 lbl_x.FontWeight='bold';
-lbl_y=ylabel("Azimuth [m]");
+lbl_y=ylabel("Cross-Range [m]");
 lbl_y.FontSize=18;
 lbl_y.FontWeight='bold';
 t=title("Azimuth Compressed");
@@ -61,7 +61,7 @@ t.FontWeight='bold';
     lbl_x=xlabel("Range [m]");
     lbl_x.FontSize=18;
     lbl_x.FontWeight='bold';
-    lbl_y=ylabel("Azimuth distance [m]");
+    lbl_y=ylabel("Cross-Range [m]");
     lbl_y.FontSize=18;
     lbl_y.FontWeight='bold';
     ax = gca;

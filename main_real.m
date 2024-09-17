@@ -13,9 +13,15 @@ dbstop if error
 
 suffix="real";
 
+db_thrsh = -60;
 
 %%
 %001
+% range_compression_shift=false;
+% range_doppler_shift=true;
+% range_doppler_invert_shift=false;
+% kernel_conjugate=true;
+
 range_compression_shift=false;
 range_doppler_shift=true;
 range_doppler_invert_shift=false;
@@ -118,13 +124,13 @@ radar.SAR_RD_range_corrected=rcmc(radar.SAR_range_doppler,delta_samples);
 
 
 %show step results
-display_range_correction
+%display_range_correction
 close all
 
 
 %% Azimuth Compression
 %true
-radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(1000,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
+radar.SAR_azimuth_reference_LUT=get_azimuth_reference_chirp(2048,params.centralSwathRange,params.swathWidth,ant_angle,sigma_r,v,PRI,Alfa,fc,fs,radar.lambda,kernel_conjugate);
 [azimuth_compressed, freq_kernels] = azimuth_compression(radar.SAR_RD_range_corrected,radar.SAR_azimuth_reference_LUT,sigma_r,sigma_r,params.centralSwathRange+params.swathWidth/2);
 
 radar.SAR_azimuth_compressed=range_doppler_invert(azimuth_compressed,range_doppler_invert_shift);

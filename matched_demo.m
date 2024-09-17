@@ -93,3 +93,49 @@ lbl_y.FontWeight='bold';
 %sgtitle('Matched Filtering Demonstration with Chirp Signal at 2 Seconds');
 saveas(matched_filter_figure,"./graphics/matched_demo.png");
 
+
+
+%%
+
+% Parameters
+Fs = 10000;          % Sampling frequency (samples per second)
+T = 2;              % Duration in seconds
+f0 = 0;             % Start frequency of the chirp (Hz)
+f1 = 250;           % End frequency of the chirp (Hz)
+t = 0:1/Fs:T;       % Time vector
+
+% Generate chirp signal
+chirpSignal = chirp(t, f0, T, f1);
+
+% Perform FFT
+N = length(chirpSignal);  % Number of points in FFT
+fftSignal = fft(chirpSignal, N);
+frequencies = (0:N-1)*(Fs/N);  % Frequency vector
+
+% Compute magnitude spectrum and phase
+magnitude = abs(fftSignal);
+phase = angle(fftSignal);
+
+% Plot the chirp signal
+figure;
+subplot(3,1,1);
+plot(t, chirpSignal);
+title('Chirp Signal');
+xlabel('Time (s)');
+ylabel('Amplitude');
+
+% Plot the magnitude spectrum
+subplot(3,1,2);
+plot(frequencies, magnitude);
+title('Magnitude Spectrum');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+xlim([0 Fs/2]); % Display up to Nyquist frequency
+
+% Plot the phase spectrum
+subplot(3,1,3);
+plot(frequencies, phase);
+title('Phase Spectrum');
+xlabel('Frequency (Hz)');
+ylabel('Phase (radians)');
+xlim([0 Fs/2]); % Display up to Nyquist frequency

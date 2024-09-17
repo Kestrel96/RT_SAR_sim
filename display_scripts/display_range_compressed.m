@@ -14,7 +14,7 @@ lbl_x=xlabel("Range [m]");
 lbl_x.FontSize=20;
 lbl_x.FontWeight='bold';
 
-lbl_y=ylabel("Azimuth [m]");
+lbl_y=ylabel("Cross-Range [m]");
 lbl_y.FontSize=20;
 lbl_y.FontWeight='bold';
 
