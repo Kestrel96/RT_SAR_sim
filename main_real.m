@@ -95,7 +95,7 @@ close all
 radar.SAR_range_doppler=range_doppler_transform(radar.SAR_range_compressed,range_doppler_shift);
 display_range_doppler
 close all
-%% RCMC
+%% RCMC 
 % delta_R=r_shift(rd_axis,raxis_csr,radar.lambda,radar.v);
 % 
 % 
